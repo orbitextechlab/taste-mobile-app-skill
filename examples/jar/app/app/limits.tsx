@@ -2,7 +2,8 @@
 // consequence, Lưu hạn mức at the bottom. No keyboard, no haptic: this is not the core task. Dismissing the
 // sheet discards; Lưu applies and posts a snackbar on Hũ.
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LimitStepper } from '../components/LimitStepper';
@@ -40,7 +41,7 @@ export default function LimitsSheet() {
 
   return (
     <View style={[styles.sheet, { backgroundColor: c.surface }]}>
-      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} keyboardShouldPersistTaps="handled">
         <View style={styles.head}>
           <Text style={[styles.title, { color: c.text }]}>Đặt hạn mức tuần</Text>
           <Text style={[styles.hint, { color: c.textMuted }]}>Mỗi bước 50.000 ₫. Áp dụng từ tuần này.</Text>
@@ -58,7 +59,7 @@ export default function LimitsSheet() {
         <View style={styles.actions}>
           <PrimaryButton label="Lưu hạn mức" onPress={save} disabled={!canSave} />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

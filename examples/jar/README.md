@@ -1,6 +1,6 @@
 # Example: Hũ (weekly budget jars)
 
-The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "a personal weekly budget app for young office workers in Saigon: set an amount for the week, log each spend in a few seconds at the counter, one-handed", stack Expo, posture unified-brand (iOS and Android both first-class). Everything here was produced by the skill's phases in order; the design file was complete before the first screen was written. The device pass (simulator screenshots and the Phase 8 clip) is still pending, and the design file says so.
+The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "a personal weekly budget app for young office workers in Saigon: set an amount for the week, log each spend in a few seconds at the counter, one-handed", stack Expo, posture unified-brand (iOS and Android both first-class). Everything here was produced by the skill's phases in order; the design file was complete before the first screen was written. The device pass ran on an iPhone 17 Pro simulator after the build: three defects fixed, the Phase 8 clip recorded, screenshots in `screens/`.
 
 ## What is here
 
@@ -30,7 +30,9 @@ Character `settle`. The signature motion is the coin level in the jar on Tuần 
 
 ## Demo clip
 
-The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Tuần này at its first viewport, then Ghi chi tiêu → 55, 000 → Cà phê → Phúc Long → Lưu, ending on Tuần này with the level settled from 75% to 71% and the numeral at 1.066.000 ₫. The figures hold on a Tuesday (the seed is relative to the device date). Recording is pending.
+The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Tuần này at its first viewport, then Ghi chi tiêu → 55, 000 → Cà phê → Phúc Long → Lưu, ending on Tuần này with the level settled from 75% to 71% and the numeral at 1.066.000 ₫. The figures hold on a Tuesday (the seed is relative to the device date). Recorded on an iPhone 17 Pro simulator with `xcrun simctl io recordVideo` (`references/demo-video.md`); pauses between taps were trimmed and the motion plays at its real speed. The device pass found three defects, recorded in the design file's change log: a clipped amount, an empty limits sheet, and the keypad bar falling back to the system Done.
+
+![Demo: logging a 55.000 ₫ coffee](screens/demo.gif)
 
 ## What Phase 7 found and fixed (from code)
 

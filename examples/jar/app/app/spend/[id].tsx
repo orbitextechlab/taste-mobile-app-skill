@@ -11,7 +11,7 @@ import { AmountField, MAX_AMOUNT } from '../../components/AmountField';
 import { Chip } from '../../components/Chip';
 import { Divider } from '../../components/Divider';
 import { EmptyState } from '../../components/EmptyState';
-import { KeypadAccessory } from '../../components/KeypadAccessory';
+import { KeypadAccessory, useKeypadAccessoryId } from '../../components/KeypadAccessory';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { getJar, getSpend, listJars, removeSpend, restoreSpend, spentByJar, updateSpend, useBudget, type JarId, type Spend } from '../../data/budget';
 import { showSnack } from '../../data/snackbar';
@@ -37,6 +37,7 @@ export default function SpendDetail() {
 }
 
 function SpendEditor({ spend }: { spend: Spend }) {
+  const keypadId = useKeypadAccessoryId();
   const c = useTheme();
   const router = useRouter();
   const navigation = useNavigation();
@@ -118,7 +119,7 @@ function SpendEditor({ spend }: { spend: Spend }) {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
       >
-        <AmountField value={amount} onChange={setAmount} onTripleZero={() => setAmount((a) => (a > 0 && a * 1000 <= MAX_AMOUNT ? a * 1000 : a))} tone={over ? 'danger' : 'text'} />
+        <AmountField value={amount} onChange={setAmount} accessoryId={keypadId} onTripleZero={() => setAmount((a) => (a > 0 && a * 1000 <= MAX_AMOUNT ? a * 1000 : a))} tone={over ? 'danger' : 'text'} />
         <View style={styles.chips}>
           {jars.map((j) => (
             <Chip key={j.id} label={j.name} selected={jarId === j.id} tone="accent" onPress={() => setJarId(j.id)} />
@@ -164,7 +165,7 @@ function SpendEditor({ spend }: { spend: Spend }) {
           <PrimaryButton label="Xóa khoản chi" variant="danger" onPress={confirmDelete} disabled={saving} />
         </View>
       </KeyboardAwareScrollView>
-      <KeypadAccessory onTripleZero={() => setAmount((a) => (a > 0 && a * 1000 <= MAX_AMOUNT ? a * 1000 : a))} />
+      <KeypadAccessory id={keypadId} onTripleZero={() => setAmount((a) => (a > 0 && a * 1000 <= MAX_AMOUNT ? a * 1000 : a))} />
     </View>
   );
 }

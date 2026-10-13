@@ -6,7 +6,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
-import { DoneAccessory } from '../components/DoneAccessory';
+import { DoneAccessory, useDoneAccessoryId } from '../components/DoneAccessory';
 import { Chip } from '../components/Chip';
 import { InkButton } from '../components/InkButton';
 import { QuantityStepper } from '../components/QuantityStepper';
@@ -17,6 +17,7 @@ import { fontFamily, spacing, type } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
 export default function AdjustSheet() {
+  const doneId = useDoneAccessoryId();
   useStock();
   const c = useTheme();
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function AdjustSheet() {
           <Chip label="Giảm" selected={direction === 'down'} onPress={() => setDirection('down')} />
           <Chip label="Tăng" selected={direction === 'up'} onPress={() => setDirection('up')} />
         </View>
-        <QuantityStepper value={amount} onChange={setAmount} unit={sku?.unit ?? ''} quickAdds={[1, 5, 10]} disabled={!sku} />
+        <QuantityStepper inputAccessoryViewID={doneId} value={amount} onChange={setAmount} unit={sku?.unit ?? ''} quickAdds={[1, 5, 10]} disabled={!sku} />
         {sku && amount > 0 ? (
           <Text style={[styles.consequence, { color: after < 0 ? c.danger : c.text }]} accessibilityLiveRegion="polite">
             {after < 0 ? `Tồn không thể âm (${formatQuantity(sku.onHand)} − ${formatQuantity(amount)})` : `Tồn ${formatQuantity(sku.onHand)} → ${formatQuantity(after)} ${sku.unit}`}
@@ -76,7 +77,7 @@ export default function AdjustSheet() {
           <InkButton label="Lưu" onPress={save} disabled={!canSave} loading={saving} />
         </View>
       </KeyboardAwareScrollView>
-      <DoneAccessory />
+      <DoneAccessory id={doneId} />
     </View>
   );
 }

@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView, KeyboardStickyView } from 'react-native-keyboa
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Divider } from '../../../components/Divider';
 import { EmptyState } from '../../../components/EmptyState';
-import { DoneAccessory } from '../../../components/DoneAccessory';
+import { DoneAccessory, useDoneAccessoryId } from '../../../components/DoneAccessory';
 import { InkBar } from '../../../components/InkBar';
 import { InkButton } from '../../../components/InkButton';
 import { QuantityStepper } from '../../../components/QuantityStepper';
@@ -19,6 +19,7 @@ import { fontFamily, spacing, type } from '../../../theme/tokens';
 import { useTheme } from '../../../theme/useTheme';
 
 export default function CountScreen() {
+  const doneId = useDoneAccessoryId();
   useStock();
   const c = useTheme();
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function CountScreen() {
               <View style={styles.block}>
                 <Text style={[styles.name, { color: c.text }]}>{current.name}</Text>
                 <Text style={[styles.code, { color: c.textMuted }]}>{current.code}</Text>
-                <QuantityStepper value={value} onChange={setValue} unit={current.unit} quickAdds={[5, 10, 50]} />
+                <QuantityStepper inputAccessoryViewID={doneId} value={value} onChange={setValue} unit={current.unit} quickAdds={[5, 10, 50]} />
                 <Text style={[styles.consequence, { color: diff < 0 ? c.danger : c.text }]} accessibilityLiveRegion="polite">
                   Sổ {formatQuantity(current.onHand)} · Đếm {formatQuantity(value)} · lệch {formatSigned(diff)}
                 </Text>
@@ -106,7 +107,7 @@ export default function CountScreen() {
               <InkButton label={allDone || index === skus.length - 1 ? 'Xem lại' : 'Tiếp'} onPress={next} />
             </View>
           </KeyboardStickyView>
-          <DoneAccessory />
+          <DoneAccessory id={doneId} />
         </>
       )}
     </View>

@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 import { AmountField, MAX_AMOUNT } from '../components/AmountField';
 import { Chip } from '../components/Chip';
-import { KeypadAccessory } from '../components/KeypadAccessory';
+import { KeypadAccessory, useKeypadAccessoryId } from '../components/KeypadAccessory';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { TopBar } from '../components/TopBar';
 import { addSpend, getJar, listJars, recentPlaces, removeSpend, spentByJar, useBudget, validateSpend, type JarId, type SpendInput } from '../data/budget';
@@ -21,6 +21,7 @@ import { duration, radius, spacing, tabular, touch, type } from '../theme/tokens
 import { useTheme } from '../theme/useTheme';
 
 export default function LogScreen() {
+  const keypadId = useKeypadAccessoryId();
   useBudget();
   const c = useTheme();
   const router = useRouter();
@@ -106,6 +107,9 @@ export default function LogScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
+      {/* Mounted before the amount field: an autofocused input looks its accessory view up on focus, and an
+          accessory rendered after it is not registered yet, so iOS falls back to its own Done bar. */}
+      <KeypadAccessory id={keypadId} onTripleZero={tripleZero} />
       <TopBar title="Ghi chi tiêu" onClose={() => router.back()} insetTop={Platform.OS !== 'ios'} />
       <KeyboardAwareScrollView
         contentContainerStyle={[styles.content, { paddingBottom: footerHeight + spacing.s16 }]}
@@ -113,7 +117,7 @@ export default function LogScreen() {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
       >
-        <AmountField value={amount} onChange={setAmount} onTripleZero={tripleZero} autoFocus tone={over ? 'danger' : 'text'} />
+        <AmountField value={amount} onChange={setAmount} onTripleZero={tripleZero} accessoryId={keypadId} autoFocus tone={over ? 'danger' : 'text'} />
 
         <View style={styles.chips}>
           {jars.map((j) => (
@@ -162,7 +166,6 @@ export default function LogScreen() {
           <PrimaryButton label="Lưu" onPress={save} disabled={!canSave} loading={saving} />
         </View>
       </KeyboardStickyView>
-      <KeypadAccessory onTripleZero={tripleZero} />
     </View>
   );
 }

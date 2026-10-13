@@ -1,18 +1,26 @@
 // iOS number pads have no return key, so the amount input gets a bar attached to the keyboard itself with the
 // two controls the task needs: 000 (append three zeros) and Xong [R-KB7]. Being part of the keyboard frame it
 // never overlaps the keyboard-sticky footer. Android pads carry Done; the 000 chip lives in AmountField there.
+import { useRef } from 'react';
 import React from 'react';
 import { InputAccessoryView, Keyboard, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { spacing, touch, type } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
-export const KEYPAD_ACCESSORY_ID = 'keypad';
+// One id per mounted screen. A second InputAccessoryView mounted with an id that an unmounted one used
+// before is not registered again on iOS, so a reopened modal got the system Done bar instead of this one.
+let counter = 0;
+export function useKeypadAccessoryId(): string {
+  const id = useRef<string | null>(null);
+  if (id.current === null) id.current = `keypad-${++counter}`;
+  return id.current;
+}
 
-export function KeypadAccessory({ onTripleZero }: { onTripleZero?: () => void }) {
+export function KeypadAccessory({ id, onTripleZero }: { id: string; onTripleZero?: () => void }) {
   const c = useTheme();
   if (Platform.OS !== 'ios') return null;
   return (
-    <InputAccessoryView nativeID={KEYPAD_ACCESSORY_ID} backgroundColor={c.surfaceAlt}>
+    <InputAccessoryView nativeID={id} backgroundColor={c.surfaceAlt}>
       <View style={[styles.bar, { borderTopColor: c.divider }]}>
         {onTripleZero ? (
           <Pressable onPress={onTripleZero} accessibilityRole="button" accessibilityLabel="Thêm ba số không" hitSlop={8} style={({ pressed }) => [styles.button, { opacity: pressed ? 0.6 : 1 }]}>

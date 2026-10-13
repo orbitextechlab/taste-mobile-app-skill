@@ -117,12 +117,16 @@ Four runs on empty repos, all Expo, each with its locked `MOBILE-DESIGN.md` (sch
 
 | Example | App | Territory | Character | Screens |
 |---|---|---|---|---|
-| [`examples/warehouse`](examples/warehouse) | Kho, warehouse stock for staff, Android-first | shipping label × factory kanban board | snap | 15, simulator-checked, with screenshots |
-| [`examples/running`](examples/running) | Chạy, a running tracker | race bib × painted lane line | snap | 6, autonomous run, device pass pending |
-| [`examples/plants`](examples/plants) | Cây, house plant care | balcony at seven in the morning × seed packet | settle | 6, autonomous run, device pass pending |
-| [`examples/jar`](examples/jar) | Hũ, weekly budget jars | glass jar of coins × kitchen table | settle | 6, autonomous run, device pass pending |
+| [`examples/warehouse`](examples/warehouse) | Kho, warehouse stock for staff, Android-first | shipping label × factory kanban board | snap | 15, simulator-checked, demo clip |
+| [`examples/running`](examples/running) | Chạy, a running tracker | race bib × painted lane line | snap | 6, simulator-checked, demo clip |
+| [`examples/plants`](examples/plants) | Cây, house plant care | balcony at seven in the morning × seed packet | settle | 6, simulator-checked, demo clip |
+| [`examples/jar`](examples/jar) | Hũ, weekly budget jars | glass jar of coins × kitchen table | settle | 6, simulator-checked, demo clip |
 
-The three six-screen examples were produced by the skill in `--autonomous` mode from a one-paragraph brief each, with no hand design outside the phases; their design files record the assumptions, the two rejected directions and the fix-once round.
+The three six-screen examples were produced by the skill in `--autonomous` mode from a one-paragraph brief each, with no hand design outside the phases; their design files record the assumptions, the two rejected directions and the fix-once round. All four were then run on an iPhone 17 Pro simulator and recorded per Phase 8. That device pass found seven real defects the code-only QA had missed (a clipped amount, an empty sheet, a keypad bar falling back to the system one, a label hidden behind an illustration, a double cross-fade, a missing snackbar, a split shown as 0,0 km); each is fixed and recorded in its example's change log.
+
+| Kho | Chạy | Cây | Hũ |
+|---|---|---|---|
+| ![Kho demo](examples/warehouse/screens/demo.gif) | ![Chạy demo](examples/running/screens/demo.gif) | ![Cây demo](examples/plants/screens/demo.gif) | ![Hũ demo](examples/jar/screens/demo.gif) |
 
 ## Customising
 
