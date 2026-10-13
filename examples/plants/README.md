@@ -1,6 +1,6 @@
 # Example: plant care app (Cây)
 
-The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "app chăm cây cho căn hộ" (a few plants on the balcony and the window sill, opened for a few seconds each morning to see what needs water and confirm it), stack Expo, posture unified-brand, schema 3 from the start. Everything here was produced by the skill's phases in order; nothing was hand-designed outside the process. The device pass is pending: Phase 7's visual answers are from code and the Phase 8 clip is not recorded yet.
+The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "app chăm cây cho căn hộ" (a few plants on the balcony and the window sill, opened for a few seconds each morning to see what needs water and confirm it), stack Expo, posture unified-brand, schema 3 from the start. Everything here was produced by the skill's phases in order; nothing was hand-designed outside the process. The device pass ran on an iPhone 17 Pro simulator after the build: two defects fixed, the Phase 8 clip recorded, screenshots in `screens/`.
 
 ## What is here
 
@@ -31,7 +31,9 @@ Character `settle`. The signature motion is derived from the core moment, confir
 
 ## Demo clip
 
-The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Hôm nay at its first viewport (lime field, the monstera tilted, "Mon lá xẻ", "650 ml · đến hạn hôm nay"), tap Đã tưới (settle, line swap, snackbar), the field cross-fades to Trầu bà vàng, tap Đã tưới again, hold on the "không cần tưới" state with Mon Thái due tomorrow. Marked `recorded: pending`; record it with `xcrun simctl io recordVideo` as `references/demo-video.md` describes, keep the `.mp4` out of version control and put the preview at `screens/demo.webp`.
+The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Hôm nay at its first viewport (lime field, the monstera tilted, "Mon lá xẻ", "650 ml · đến hạn hôm nay"), tap Đã tưới (settle, line swap, snackbar), the field cross-fades to Trầu bà vàng, tap Đã tưới again, hold on the "không cần tưới" state with Mon Thái due tomorrow. Recorded on an iPhone 17 Pro simulator with `xcrun simctl io recordVideo` (`references/demo-video.md`); the pauses between taps were trimmed and the motion plays at its real speed. The first take caught a double cross-fade on the second watering, recorded in the design file's change log and fixed before this take.
+
+![Demo: watering two plants](screens/demo.gif)
 
 ## What Phase 7 found and fixed (from code)
 

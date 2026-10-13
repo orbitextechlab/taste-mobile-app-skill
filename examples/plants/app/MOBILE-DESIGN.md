@@ -329,7 +329,7 @@ beat 3  last 3 s success    the pothos settles, "300 ml · Thứ bảy 18/10"; a
 signature visible at: beat 2 at about 0:04 and beat 3 at about 0:10, Hôm nay
 nothing else moves: the name, the buttons, the tab bar, the rows below (they update in place only after the cross-fade)
 data: Mon lá xẻ (monstera, 650 ml, every 7 days, last 06/10) and Trầu bà vàng (pothos, 300 ml, every 5 days, last 08/10) from data/plants.ts
-recorded: pending (no simulator in this session; the controller session does the device pass)
+recorded: 2026-10-13, iPhone 17 Pro simulator (iOS 27.0), Expo Go; screens/demo.gif (9.6 s). Pauses between the two taps were trimmed; every animation plays at its real speed
 ```
 
 ## Rule exceptions
@@ -338,5 +338,6 @@ None.
 
 ## Change log
 
+- 2026-10-13: device pass and Phase 8 demo on an iPhone 17 Pro simulator (iOS 27.0, Expo Go); screens captured in `screens/`. Two defects found on the device and fixed. First, the monstera silhouette ran behind Để tối nay and made the label unreadable; the text button in the hero now sits on the field colour (`backdrop`). Second, the second Đã tưới of a session cross-faded twice with a ghosted silhouette: the store notified synchronously before the hero was held, so the next due plant took over for one render and handed back. The hero is now held before the watering is written. VQ11: the settle plays once per watering (demo.gif 0:03 and 0:06), the care line swaps in place, the field cross-fades once a second later. VQ12: settle throughout, one success haptic per watering, nothing moves under the thumb.
 - 2026-10-13: Phase 7 fix-once round, from code (no simulator in this session). VQ9 on Hôm nay: with the field at 55% the Đã tưới button centred at about 49% of the screen; the field is now 60% (min 400 pt) on both Hero screens so the decision sits in the lower half; inventory and DNA updated. Thêm cây: the name input and the interval numeral were both at display size (two display elements); the name is now heading size and the numeral is the screen's display element; the stepper moved above the location chips so the hero input follows the object, and choosing a species sets the interval default until the stepper is touched; the declared 150 ms preview colour swap on species change was not built and now is (PlantField animates its fill). VQ4 on Hôm nay: the row groups can reach four in some states (Cũng hôm nay, Tối nay, Sắp tới, Đã tưới hôm nay) against the contract's two; the limit is amended with the reason above instead of merging groups.
 - 2026-10-13: created by taste-mobile-app-skill 0.3.0 in --autonomous mode (schema 3). Direction "Bao hạt giống" chosen over "Sổ tưới" and "Nhãn vườn" because the audience's task is a two-second glance and the field answers it without reading. Phases 0 to 5 written before any code; Phase 6 built all six inventory screens; Phase 7 ran the mechanical pass (typecheck, both grep blocks, layout-mechanics checklist) and the visual pass from code. The device pass on a simulator (Phase 7 V-type answers, Phase 8 demo clip) is pending.

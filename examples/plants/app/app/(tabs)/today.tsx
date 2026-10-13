@@ -75,14 +75,17 @@ export default function TodayScreen() {
   async function confirm(plant: Plant) {
     setBusy(true);
     setError(null);
+    // Hold the hero before the store changes: the store notifies synchronously, and without the hold
+    // the next due plant would take over for one render and then hand back, cross-fading twice.
+    if (holdTimer.current) clearTimeout(holdTimer.current);
+    setHeld(plant.id);
     try {
       await water(plant.id, new Date());
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       showSnack({ message: `Đã tưới ${plant.name}`, actionLabel: 'Hoàn tác', onAction: () => undoWater(plant.id) });
-      if (holdTimer.current) clearTimeout(holdTimer.current);
-      setHeld(plant.id);
       holdTimer.current = setTimeout(() => setHeld(null), reduceMotion ? duration.settle : HOLD_MS);
     } catch (e) {
+      setHeld(null);
       setError(e instanceof Error ? e.message : 'Không ghi được lần tưới này');
     } finally {
       setBusy(false);

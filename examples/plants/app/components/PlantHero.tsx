@@ -1,6 +1,7 @@
 // The hero band on Hôm nay and Chi tiết cây: the field, a top line, the plant's name at display size,
 // the care line that swaps in place, and the actions. Đã tưới is the only filled button on the screen
-// and is filled only when the plant is due; Để tối nay is text and appears only when due.
+// and is filled only when the plant is due; Để tối nay is text on the field colour (so the silhouette
+// never runs behind its label) and appears only when due.
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { careLine, isDue, postponeTarget, wateredToday, type Plant } from '../data/plants';
@@ -40,7 +41,7 @@ export function PlantHero({ plant, height, topInset, topLine, onWater, onPostpon
         <View style={styles.spacer} />
         <View style={styles.actions}>
           <Button label="Đã tưới" onPress={onWater} variant={due ? 'filled' : 'outlined'} color={tone.ink} loading={busy} disabled={done} />
-          {due ? <Button label={postponeTarget(now).label} onPress={onPostpone} variant="text" color={tone.ink} disabled={busy} /> : null}
+          {due ? <Button label={postponeTarget(now).label} onPress={onPostpone} variant="text" color={tone.ink} backdrop={tone.field} disabled={busy} /> : null}
         </View>
         {error ? (
           <Text style={[styles.error, { color: c.danger }]} accessibilityLiveRegion="assertive">

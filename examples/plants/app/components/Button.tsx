@@ -15,9 +15,11 @@ type Props = {
   disabled?: boolean;
   loading?: boolean;
   grow?: boolean;
+  /** Fill behind a text button that sits on an illustration, so the label never lands on the art. */
+  backdrop?: string;
 };
 
-export function Button({ label, onPress, variant = 'filled', color, disabled = false, loading = false, grow = false }: Props) {
+export function Button({ label, onPress, variant = 'filled', color, disabled = false, loading = false, grow = false, backdrop }: Props) {
   const c = useTheme();
   const filled = variant === 'filled';
   const ink = color ?? c.text;
@@ -33,7 +35,7 @@ export function Button({ label, onPress, variant = 'filled', color, disabled = f
       style={({ pressed }) => [
         styles.base,
         grow && styles.grow,
-        filled ? { backgroundColor: c.accent } : variant === 'outlined' ? { borderWidth: 2, borderColor: ink } : styles.text,
+        filled ? { backgroundColor: c.accent } : variant === 'outlined' ? { borderWidth: 2, borderColor: ink } : [styles.text, backdrop ? { backgroundColor: backdrop } : null],
         { opacity: disabled ? 0.4 : pressed ? 0.8 : 1 },
       ]}
     >
