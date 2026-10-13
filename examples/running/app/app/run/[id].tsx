@@ -126,8 +126,8 @@ export default function RunDetailScreen() {
           {run.lastPartial.meters > 0 && partialPace !== null ? (
             <>
               <Divider />
-              <View style={styles.tableRow} accessibilityLabel={`${formatKm(run.lastPartial.meters)} km cuối, ${formatPace(partialPace)} mỗi km`}>
-                <Text style={[styles.cell, styles.kmCol, { color: c.text }]}>{formatKm(run.lastPartial.meters)}</Text>
+              <View style={styles.tableRow} accessibilityLabel={`${run.lastPartial.meters} m cuối, ${formatPace(partialPace)} mỗi km`}>
+                <Text style={[styles.cell, styles.kmCol, { color: c.text }]} numberOfLines={1}>{run.lastPartial.meters} m</Text>
                 <Text style={[styles.cell, styles.paceCol, { color: c.text }]}>{formatPace(partialPace)}</Text>
                 <Text style={[styles.cell, styles.timeCol, { color: c.textMuted }]}>{formatDuration(run.durationS)}</Text>
               </View>

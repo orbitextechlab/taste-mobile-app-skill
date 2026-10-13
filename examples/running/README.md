@@ -1,6 +1,6 @@
 # Example: running tracker (Chạy)
 
-The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "a running tracker for amateur runners in Vietnam, one-handed, sweat on the screen", stack Expo, posture unified-brand, iOS and Android both first-class. Everything here was produced by the skill's phases in order (schema 3 from the start: motion system, Motion field per screen, demo beat sheet). The device pass has not run yet: Phase 7 was done from source, and the Phase 8 clip is pending.
+The output of one full run of `taste-mobile-app-skill` 0.3 in `--autonomous` mode on an empty repo, brief "a running tracker for amateur runners in Vietnam, one-handed, sweat on the screen", stack Expo, posture unified-brand, iOS and Android both first-class. Everything here was produced by the skill's phases in order (schema 3 from the start: motion system, Motion field per screen, demo beat sheet). The device pass ran on an iPhone 17 Pro simulator after the build: one defect fixed, the Phase 8 clip recorded, screenshots in `screens/`.
 
 ## What is here
 
@@ -32,7 +32,9 @@ Character `snap`. The signature motion lives on Kết thúc: on arrival, one suc
 
 ## Demo clip
 
-The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Hôm nay at its first viewport ("6" km, kế hoạch hôm nay, the lane with six ticks, the red pill), then Bắt đầu chạy → Chạy (the red field, "Đang bắt tín hiệu" for a second, then the numeral rolling) → Tạm dừng → Kết thúc, ending on the result state with the lane drawn and Lưu buổi chạy visible. Recorded: pending. The ticker runs at real time, so a 13 second take at `TIME_SCALE` 1 would end under 100 m and land on the "Chưa đủ 100 m" state; the recording session either raises `TIME_SCALE` and says so, or records a longer take.
+![Demo: a simulated run, paused and finished](screens/demo.gif)
+
+Hôm nay at its first viewport, then Bắt đầu chạy, the red field with the numeral rolling as the simulated run accrues distance, Tạm dừng, Kết thúc, and the result state with the lane drawn to its end. Recorded on an iPhone 17 Pro simulator with `xcrun simctl io recordVideo` (`references/demo-video.md`). `TIME_SCALE` in `data/live.ts` was 40 for the take, so one real second is forty run seconds; it is 1 in the committed source. Pauses between taps were trimmed and about nine seconds of the running stretch were cut once; the animations play at their real speed.
 
 ## What Phase 7 found and fixed
 
