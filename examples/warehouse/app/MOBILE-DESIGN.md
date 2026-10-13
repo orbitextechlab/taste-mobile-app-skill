@@ -308,12 +308,12 @@ Phase 7 compares the build against these commitments; none may change without up
 ```
 DEMO: Kho · nhập kho một SKU dưới mức tối thiểu · 12s
 beat 1  0–3 s    identity   Tổng quan at its first viewport: ink bar TỔNG QUAN, the Tồn thấp headline module, the Nhập kho ink block; no touch
-beat 2  3–10 s   the task   tab Kho → row "Găng tay nitrile M (hộp 100)" (18 hộp, yellow stripe) → Nhập → +10, +10, +10, +2: the numeral rolls 0 → 32 and the consequence line reads "Tồn 18 → 50 hộp, đủ mức tối thiểu 50"
+beat 2  3–10 s   the task   tab Kho → row "Găng tay nitrile M (hộp 100)" (18 hộp, yellow stripe) → SKU detail → Nhập → +10, +10, +10, +, +: the numeral rolls 0 → 32 and the consequence line reads "Tồn 18 → 50 hộp, đủ mức tối thiểu 50"
 beat 3  last 2 s success    Lưu phiếu: haptic, the modal dismisses, the label block shows 50 and the snackbar "Đã nhập 32 hộp · Găng tay nitrile M (hộp 100) · Hoàn tác"; hold on that state
 signature visible at: beat 2, Nhập kho, on each stepper tap
 nothing else moves: ink bar, label block, barcode, chips, the sticky footer
 data: SKU 8936012340017 (Găng tay nitrile M, 18 on hand, minimum 50) from data/stock.ts
-recorded: pending
+recorded: 2026-10-13, iPhone 17 Pro simulator (iOS 27.0), Expo Go; screens/demo.gif (11.9 s). Pauses between taps were trimmed; every animation plays at its real speed
 ```
 ## Rule exceptions
 
@@ -326,4 +326,5 @@ None.
 - 2026-10-07: Phase 7 visual QA on the simulator: the ink-block button directly under the ink bar competed with it for the anchor on Tổng quan (VQ1, VQ8); the headline module now comes first and the action after it. Inventory row and first-viewport commitment updated. Selected chips are tonal with a 2 dp ink border so the primary action stays the only ink block on a screen.
 - 2026-10-07: Phase 6 build decision: the ink bar is the top app bar on tab roots and task modals (native header hidden) to avoid two headers; recorded under Chrome before the build.
 - 2026-10-07: Phase 5 added the Nav Read, a 15-screen inventory, flow decisions and the Visual QA contract. composition.allowed gained Hero for SKU detail: the label block with barcode is the object and takes the top third, which is the Hero hierarchy; the Phase 4 prohibition had been written before the inventory existed.
+- 2026-10-13: Phase 8 demo recorded. The first take showed the success moment without its snackbar when Nhập was opened from Chi tiết SKU: the snackbar was mounted only on the three tab screens. It is now also mounted on Chi tiết SKU with the bottom safe-area inset, and the third take shows it. VQ11: the numeral roll is the only movement inside Nhập kho (demo.gif 0:05 to 0:09). VQ12: snap character throughout, one success moment at 0:10, nothing moves under the thumb.
 - 2026-10-13: upgraded to schema 3 by taste-mobile-app-skill 0.3.0. Added motion_system (character snap, the rolling numeral as the signature motion, four moments, never list), the Motion field on every inventory row, the Motion system section and the Demo beat sheet. The Composition system prose now matches the YAML (Hero allowed since Phase 5). The success moment was corrected to what the build does: haptic, platform dismiss, snackbar; the planned roll to the new stock before the dismiss was not built and is recorded as a deliberate drop. The swipe-to-undo on Lịch sử rows, written in Phase 5, was never built (undo lives in the snackbar and in Chi tiết phiếu); the inventory, interaction lines and first-viewport commitment now say so.

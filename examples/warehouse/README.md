@@ -8,7 +8,7 @@ The output of one full run of `taste-mobile-app-skill` 0.2 on an empty repo, bri
 |---|---|---|
 | `app/MOBILE-DESIGN.md` | 4, 5, 7, 8 | The locked direction **Nhãn đen** (shipping label × factory kanban board): schema 3 front matter, visual DNA, composition system, motion system, Nav Read, a 15-screen inventory with a Motion field per screen, flow decisions, the Visual QA contract, the demo beat sheet, and a change log that records what Phases 5, 7 and the schema 3 upgrade changed and why |
 | `app/` | 6 | Expo SDK 57 + Expo Router 57 source: tokens, in-memory stores, components and all fifteen inventory screens |
-| `screens/` | 7, 8 | Simulator screenshots after the fix-once rounds, and the demo clip preview (`demo.webp`) once recorded |
+| `screens/` | 7, 8 | Simulator screenshots after the fix-once rounds, and the Phase 8 demo clip `demo.gif` |
 
 The brief gate took one round of three questions, all accepted by default. Three direction cards were proposed (Phiếu kho, Nhãn đen, Bảng đếm); the user picked Nhãn đen.
 
@@ -31,7 +31,9 @@ Character `snap`. The signature motion is the quantity numeral rolling on every 
 
 ## Demo clip
 
-The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Tổng quan at its first viewport, then Kho → Găng tay nitrile M (18 hộp, below the minimum of 50) → Nhập → +10, +10, +10, +2 with the numeral rolling and the consequence line reaching "Tồn 18 → 50 hộp, đủ mức tối thiểu 50", then Lưu phiếu, the dismiss and the snackbar. Recorded with `xcrun simctl io recordVideo` as `references/demo-video.md` describes; the `.mp4` is not committed, the preview is `screens/demo.webp`.
+![Demo: receiving 32 boxes of gloves](screens/demo.gif)
+
+The beat sheet in `app/MOBILE-DESIGN.md` §Demo: Tổng quan at its first viewport, then Kho → Găng tay nitrile M (18 hộp, below the minimum of 50) → Chi tiết SKU → Nhập → +10 three times and + twice, with the numeral rolling and the consequence line reaching "Tồn 18 → 50 hộp, đủ mức tối thiểu 50", then Lưu phiếu, the dismiss and the snackbar with Hoàn tác. Recorded on an iPhone 17 Pro simulator with `xcrun simctl io recordVideo` as `references/demo-video.md` describes. The pauses between taps were cut; every animation plays at its real speed. The first take found a real bug, recorded in the change log: the snackbar was missing on Chi tiết SKU.
 
 ## What Phase 7 found and fixed
 

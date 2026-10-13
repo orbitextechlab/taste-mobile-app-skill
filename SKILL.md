@@ -138,7 +138,7 @@ Starting from the component library and assembling a screen from what is availab
 
 ## Phase 8 — Demo clip
 
-When a simulator or emulator is available, record the beat sheet from `MOBILE-DESIGN.md` §Demo following `references/demo-video.md`: clean status bar, no development overlays, seeded data, one take of 10 to 15 seconds starting on a tab root and ending on the result state, exported at 1080 wide with a preview under 2 MB. Walk the checklist in `references/demo-video.md` §6 and quote it; re-cite VQ11 and VQ12 with timestamps from the clip; write the recorded path into the Demo section. Without a device, leave the beat sheet marked pending and say so in the delivery note. The `.mp4` stays out of version control.
+When a simulator or emulator is available, record the beat sheet from `MOBILE-DESIGN.md` §Demo following `references/demo-video.md`: clean status bar, no development overlays, seeded data, one take of 10 to 15 seconds starting on a tab root and ending on the result state, exported at 1080 wide with a preview under 2 MB; pauses between taps may be trimmed, motion never. Walk the checklist in `references/demo-video.md` §6 and quote it; re-cite VQ11 and VQ12 with timestamps from the clip; write the recorded path into the Demo section. Without a device, leave the beat sheet marked pending and say so in the delivery note. The `.mp4` stays out of version control.
 
 Reply with: the App Read, the chosen direction with its territory, the Nav Read, the screen inventory, what was built, the output of both QA passes, the demo clip path and its checklist, and what could not be verified without a device.
 

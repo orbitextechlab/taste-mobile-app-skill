@@ -1,17 +1,18 @@
-// Material snackbar: one line, one action, sits above the navigation bar inside the bottom inset.
+// Material snackbar: one line, one action. On tab screens the scene already ends above the
+// navigation bar; on pushed screens pass the bottom safe-area inset so it clears the home indicator.
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { dismissSnack, useSnack } from '../data/snackbar';
 import { fontFamily, radius, spacing, touch, type } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
-export function Snackbar() {
+export function Snackbar({ bottomInset = 0 }: { bottomInset?: number }) {
   const snack = useSnack();
   const c = useTheme();
   if (!snack) return null;
   return (
     <View
-      style={[styles.wrap, { bottom: spacing.s16 }]}
+      style={[styles.wrap, { bottom: bottomInset + spacing.s16 }]}
       accessibilityLiveRegion="polite"
       accessibilityRole="alert"
     >

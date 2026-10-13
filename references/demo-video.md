@@ -92,9 +92,13 @@ ffmpeg -y -ss 0.5 -to 13.5 -i demo-raw.mp4 -vf "scale=1080:-2,fps=30" -c:v libx2
 ffmpeg -y -sseof -1 -i demo.mp4 -frames:v 1 demo-end.png
 # an animated preview for the README (target under 2 MB; lower fps or width if it is over)
 ffmpeg -y -i demo.mp4 -vf "fps=15,scale=540:-2" -loop 0 -q:v 70 -compression_level 6 demo.webp
+# if this ffmpeg build has no libwebp encoder, a GIF with a small palette works everywhere
+ffmpeg -y -i demo.mp4 -vf "fps=12,scale=360:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=48:stats_mode=diff[p];[b][p]paletteuse=dither=none:diff_mode=rectangle" -loop 0 demo.gif
 ```
 
-Sizes: the posted clip is 1080 wide and whatever height the device gives (1080×2340 class); the store feature clip, if one is wanted later, is a separate deliverable with its own sizes. The `.mp4` stays out of the repository (add `*.mp4` to `.gitignore`); the `.webp` preview goes under `examples/<name>/screens/` in the skill's own repo and wherever the project keeps its screenshots otherwise.
+**Cutting the waiting, not the motion.** A take driven by hand or by an agent has pauses of one to five seconds between taps. Cut the still stretches, never the moving ones: find them with `ffmpeg -i demo-raw.mp4 -vf "fps=30,freezedetect=n=0.0001:d=0.5" -f null -`, keep about half a second of each pause (two to three seconds for the first viewport and the result state), and drop the rest with a `select='not(between(t,a,b)+...)',setpts=N/30/TB` filter after `fps=30`. Do not use `mpdecimate` alone: it also drops the repeated frames inside slow animations and speeds them up, which falsifies the motion the clip is evidence for. Say in the Demo section that pauses were trimmed.
+
+Sizes: the posted clip is 1080 wide and whatever height the device gives (1080×2340 class); the store feature clip, if one is wanted later, is a separate deliverable with its own sizes. The `.mp4` stays out of the repository (add `*.mp4` to `.gitignore`); the `.webp` or `.gif` preview goes under `examples/<name>/screens/` in the skill's own repo and wherever the project keeps its screenshots otherwise.
 
 ## 6. Checklist before the clip is called done
 
@@ -109,6 +113,8 @@ Quoted in the delivery note, one line each, with the timestamp where it applies:
 - [ ] Real seeded data; no placeholder names or empty lists.
 - [ ] Reduced motion was off for the take, and the delivery note states whether the reduced-motion path was checked separately.
 - [ ] Under 15 seconds, 1080 wide, h264, and the preview under 2 MB.
+- [ ] Pauses trimmed only where the screen was still; the Demo section says so.
+- [ ] Expo Go: the floating Tools button is off (dev menu, Tools button switch) and no password-save sheet or dev-menu intro is on screen.
 
 ## 7. What the recording is for
 
