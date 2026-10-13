@@ -34,8 +34,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Install and typecheck examples/warehouse
-        working-directory: examples/warehouse/app
+      - name: Install and typecheck every example app
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npx tsc --noEmit -p .
+          set -e
+          for d in examples/*/app; do
+            echo "== $d"
+            (cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npx tsc --noEmit -p .)
+          done
