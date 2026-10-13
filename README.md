@@ -105,12 +105,24 @@ taste-mobile-app-skill/
 ├── templates/
 │   └── MOBILE-DESIGN.md          # the durable design file, schema 3
 └── examples/
-    └── warehouse/                # a full run: MOBILE-DESIGN.md, Expo source, simulator screenshots
+    ├── warehouse/                # a full 15-screen run: MOBILE-DESIGN.md, Expo source, simulator screenshots
+    ├── running/                  # six screens, Hero numeral, character snap
+    ├── plants/                   # six screens, SVG plant silhouettes, character settle
+    └── jar/                      # six screens, fintech without cards, character settle
 ```
 
-## Example
+## Examples
 
-[`examples/warehouse`](examples/warehouse) is one complete run on an empty repo: a warehouse app, Expo, Android-first, direction "Nhãn đen" (shipping label × factory kanban board). It shows the locked `MOBILE-DESIGN.md` with its 15-screen inventory and change log, the screens that Phase 6 built, and what the two Phase 7 passes found and fixed.
+Four runs on empty repos, all Expo, each with its locked `MOBILE-DESIGN.md` (schema 3), the source Phase 6 built, and a README that says what the QA passes found and what is still unverified. They are deliberately different in territory, archetype mix and motion character, which is the point: the same skill should not produce the same app twice.
+
+| Example | App | Territory | Character | Screens |
+|---|---|---|---|---|
+| [`examples/warehouse`](examples/warehouse) | Kho, warehouse stock for staff, Android-first | shipping label × factory kanban board | snap | 15, simulator-checked, with screenshots |
+| [`examples/running`](examples/running) | Chạy, a running tracker | race bib × painted lane line | snap | 6, autonomous run, device pass pending |
+| [`examples/plants`](examples/plants) | Cây, house plant care | balcony at seven in the morning × seed packet | settle | 6, autonomous run, device pass pending |
+| [`examples/jar`](examples/jar) | Hũ, weekly budget jars | glass jar of coins × kitchen table | settle | 6, autonomous run, device pass pending |
+
+The three six-screen examples were produced by the skill in `--autonomous` mode from a one-paragraph brief each, with no hand design outside the phases; their design files record the assumptions, the two rejected directions and the fix-once round.
 
 ## Customising
 
