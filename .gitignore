@@ -1,0 +1,4 @@
+# demo recordings stay out of the repo; the webp preview is committed instead (references/demo-video.md)
+*.mp4
+*.mov
+demo-raw.*

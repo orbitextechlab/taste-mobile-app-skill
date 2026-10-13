@@ -48,6 +48,8 @@ Pick a single value inside the band and write the reason in one clause: `EXPRESS
 
 Hard floors at every level: animations run on the UI thread; reduced motion is honored above MOTION 3; UI animations stay between 150 and 300 ms; high-frequency actions (typing, scrolling, tapping list rows) are not animated beyond pressed feedback.
 
+The band is a ceiling. What actually moves inside it, the signature motion, the four moments and what never animates, is designed in `motion.md` and written to `motion_system` in `MOBILE-DESIGN.md`. A band of 5 with nothing designed is tell J1.
+
 ## 4. DENSITY bands
 
 | Band | Row height | Screen padding | Cards | Type |

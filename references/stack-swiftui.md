@@ -237,6 +237,23 @@ enum Radius { static let control: CGFloat = 12; static let card: CGFloat = 16 } 
 - `.symbolEffect(.bounce, value:)` (iOS 17) only to confirm a change; `.phaseAnimator` (iOS 17) sparingly, never looping behind content.
 - Sequencing: `withAnimation(_:completionCriteria:_:completion:)` (iOS 17), not `DispatchQueue.main.asyncAfter` timers.
 
+**Choreography recipes.** The inventory's Motion field names a moment from `motion.md` §3; this is the SwiftUI API for each. Everything else on the screen is static.
+
+| Moment (`motion.md`) | API | Notes |
+|---|---|---|
+| Press feedback | A `ButtonStyle` scaling to 0.97 while `configuration.isPressed`, `.animation(.snappy(duration: 0.12), value:)` | `.bouncy` never on press (J4) |
+| Change in place: a number | `.contentTransition(.numericText(value:))` inside `withAnimation(.snappy(duration: 0.2))` | Row height fixed with `.monospacedDigit()` so nothing reflows |
+| Change in place: a swap | `.contentTransition(.opacity)` or `.id(value)` with `.transition(.opacity)` | Not on the screen root (J8) |
+| Row enter / exit in place | `.transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .opacity))` on rows inside `withAnimation(.smooth(duration: 0.25))` | Siblings close the gap; no per-row appear animation (M-AI-02) |
+| One settling element on enter (band 4+) | `.onAppear` toggling one state inside `withAnimation(.smooth(duration: 0.25))`, on that single element | At most one per screen (M-AI-01) |
+| Expand / collapse | `.frame(height:)` or `.clipped()` driven by state in `withAnimation(.smooth)` | Never on a region being tapped (M-AI-08) |
+| Hero from a row (band 7+) | `.navigationTransition(.zoom(sourceID:in:))` with `.matchedTransitionSource(id:in:)` (iOS 18); within one hierarchy `matchedGeometryEffect` | Falls back to the push on iOS 17 |
+| Gesture-driven sheet or card | `.presentationDetents([...])` for sheets; `DragGesture` updating a `@GestureState`, `.animation(.interactiveSpring, value:)` on release | Spring only after the finger lets go |
+| Success moment | `.sensoryFeedback(.success, trigger:)`, the numeral transition above, then `dismiss()` with the completion of `withAnimation(_:completionCriteria:_:completion:)` | Under 600 ms before the dismiss; one site (M-AI-04) |
+| Skeleton to content | `.redacted(reason: .placeholder)` on the real layout, cross-fade once with `.transition(.opacity)` | No shimmer longer than 1.5 s (M-AI-06) |
+
+Reduced motion: `@Environment(\.accessibilityReduceMotion)` chooses `.opacity` transitions and `withAnimation(nil)` for moves, zooms and numeral rolls; `.numericText` becomes a plain swap.
+
 ## 10. Stack-specific grep checks (run before handoff)
 
 ```bash

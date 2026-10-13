@@ -87,7 +87,7 @@ for (const r of referenced) if (!existsSync(join(root, r))) fail('SKILL.md', `re
 for (const f of files) if ((f.startsWith('references/') || f.startsWith('templates/')) && !referenced.has(f)) fail(f, 'not mentioned in SKILL.md; every reference file must be reachable from the skill');
 
 // 5. Tell and rule IDs are stable: nothing that exists on the base branch may disappear or be renumbered.
-const idPattern = /^\|\s*([A-I]\d{1,2})\s*\|/gm;
+const idPattern = /^\|\s*([A-Z]\d{1,2})\s*\|/gm;
 const headIds = new Set([...readFileSync(join(root, 'references/tells-mobile.md'), 'utf8').matchAll(idPattern)].map((m) => m[1]));
 if (headIds.size !== [...readFileSync(join(root, 'references/tells-mobile.md'), 'utf8').matchAll(idPattern)].length) fail('references/tells-mobile.md', 'duplicate tell IDs');
 const base = process.env.BASE_REF;

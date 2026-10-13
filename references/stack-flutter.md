@@ -238,6 +238,23 @@ ThemeData buildTheme(Brightness b) {
 - **Haptics.** Use `HapticFeedback.selectionClick()` for pickers and segments, `lightImpact()` for toggles, and one `mediumImpact()` on success. `successNotification()` is newer, so verify it in the installed version. Never fire haptics on plain navigation.
 - **Page transitions.** `PageTransitionsTheme` already uses the platform's native transition (Zoom on Android, Cupertino on iOS). Override it only when the posture asks for it, for example `PredictiveBackPageTransitionsBuilder` (Android U+, falls back elsewhere). Predictive back itself needs `android:enableOnBackInvokedCallback="true"` in AndroidManifest.xml (https://docs.flutter.dev/platform-integration/android/predictive-back).
 
+**Choreography recipes.** The inventory's Motion field names a moment from `motion.md` §3; this is the Flutter API for each. Everything else on the screen is static.
+
+| Moment (`motion.md`) | API | Notes |
+|---|---|---|
+| Press feedback | `InkWell` ripple, or `AnimatedScale(scale: pressed ? 0.97 : 1, duration: Durations.short2)` driven by `GestureDetector` down/up | No elastic curve on press (J4) |
+| Change in place: a number | `AnimatedSwitcher(duration: Durations.short4, transitionBuilder: (child, anim) => SlideTransition(position: Tween(begin: Offset(0, 0.2), end: Offset.zero).animate(anim), child: FadeTransition(opacity: anim, child: child)))` with a `ValueKey(value)` child, text in tabular figures (`FontFeature.tabularFigures()`) | Row height fixed; the stepper never jiggles (M-AI-08) |
+| Change in place: a swap | `AnimatedSwitcher` with the default fade and a keyed child | Not on the page root (J8) |
+| Row enter / exit in place | `AnimatedList` / `SliverAnimatedList` with `SizeTransition` plus `FadeTransition` on insert and remove; siblings close the gap | No per-item appear animation in `ListView.builder` (M-AI-02) |
+| One settling element on enter (band 4+) | One `AnimatedOpacity` plus `AnimatedSlide` toggled in `initState` on the next frame, on that single element | At most one per screen (M-AI-01); `flutter_animate` only here |
+| Expand / collapse | `AnimatedSize(duration: Durations.medium2, curve: Curves.easeOutCubic)` | Never on a region being tapped (M-AI-08) |
+| Hero from a row (band 7+) | `Hero(tag: 'item-$id')` on the shared element; `OpenContainer` from the `animations` package for a card that becomes a page | The navigator's transition stays |
+| Gesture-driven sheet or card | `DraggableScrollableSheet` or `showModalBottomSheet` with `isScrollControlled`; a custom card uses `GestureDetector` updating state and `AnimatedPositioned` with a decelerate curve on release | Spring only after the finger lets go |
+| Success moment | `HapticFeedback.mediumImpact()`, the numeral transition above, then `Navigator.pop` after the 200 ms swap (`Future.delayed` on the animation's duration is acceptable here, nowhere else), then a `SnackBar` with an Undo action | Under 600 ms before the pop; one site (M-AI-04) |
+| Skeleton to content | The real layout with `Shimmer` or a muted fill, cross-faded once with `AnimatedSwitcher` | No shimmer longer than 1.5 s (M-AI-06) |
+
+Reduced motion: when `MediaQuery.disableAnimationsOf(context)` is true, durations become `Duration.zero` and `AnimatedSwitcher` keeps only its fade.
+
 ## 10. Stack-specific grep checks
 
 Run these from the project root before handing off. Each hit needs a fix or a one-line justification in the handoff.

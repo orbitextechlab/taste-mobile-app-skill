@@ -237,6 +237,23 @@ export const elevation = {
 - Entering animations must never replay in recycled FlashList cells. Limit them to first mount and the first ~6 indexes.
 - `expo-haptics` vocabulary: `selectionAsync()` for picker and segment changes, `impactAsync(ImpactFeedbackStyle.Light)` for toggles, and `notificationAsync(NotificationFeedbackType.Success)` once per completed core task. Never use haptics on plain navigation or scrolling. iOS drops haptics in Low Power Mode, so a haptic never carries meaning alone: https://docs.expo.dev/versions/latest/sdk/haptics/
 
+**Choreography recipes.** The inventory's Motion field names a moment from `motion.md` §3; this is the Reanimated 4 API for each. Everything else on the screen is static.
+
+| Moment (`motion.md`) | API | Notes |
+|---|---|---|
+| Press feedback | `withTiming(0.97, { duration: 120 })` on press-in, `withSpring(1)` on release (the `PressableScale` above) | The only place a spring touches a tap: it runs on release, not on press |
+| Change in place: a number | Keep one `Animated.Text`; on change, set `translateY` to ±8 and opacity to 0.3 with `duration: 0`, then `withTiming` both back over 150 to 200 ms (`withSequence`); verified in the warehouse example's `QuantityStepper` | Digits roll in the direction of the change; the row height never changes (M-AI-08) |
+| Change in place: a swap (segment, label, status) | Two layers, cross-fade opacity 150 ms; or `entering={FadeIn.duration(150)}` on the keyed child only | Not on the screen root (J8) |
+| Row enter / exit in place | `layout={LinearTransition.duration(250)}` on siblings, `exiting={FadeOut.duration(150)}` on the leaving row | No `entering` in FlashList cells (F4); siblings close the gap, the list does not reflow under a finger mid-swipe |
+| One settling element on enter (band 4+) | `entering={FadeInDown.duration(250).easing(Easing.out(Easing.cubic))}` on that single element | At most one per screen; nothing else gets `entering` (M-AI-01) |
+| Expand / collapse | `useAnimatedStyle` on `height` from a measured `useSharedValue`, 250 ms decelerate, with `overflow: 'hidden'` | Never on a region the user is tapping (M-AI-08) |
+| Hero from a row (band 7+) | Reanimated `sharedTransitionTag` on the image in both screens; this is still marked experimental by the Reanimated docs: https://docs.swmansion.com/react-native-reanimated/docs/shared-element-transitions/overview/ | Say so in the delivery note; fall back to the navigator's own transition when it misbehaves |
+| Gesture-driven sheet or card | `@gorhom/bottom-sheet` detents, or `Gesture.Pan()` from Gesture Handler driving a shared value with `withSpring` on release | Spring only after the finger lets go |
+| Success moment | Haptic, then the number rolls to the result (the recipe above), then the navigator dismisses (`router.back()` after the 200 ms roll, not a custom fade), then a snackbar with Undo | Under 600 ms before the dismiss; no confetti library, no checkmark animation on every save (M-AI-04) |
+| Skeleton to content | Skeleton laid out at the content's size, then cross-fade 200 ms once; no shimmer longer than 1.5 s | M-AI-06 |
+
+Reduced motion: wrap every `withTiming` and `entering` in the `useReducedMotion()` check (swap instead of roll, `undefined` instead of an entering animation); layout transitions become `LinearTransition.duration(0)`.
+
 ```tsx
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export function PressableScale({ onPress, children, accessibilityLabel }: PressableScaleProps) {

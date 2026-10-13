@@ -138,6 +138,23 @@ Signatures of an app that is tokenized correctly and still anonymous. Checked ag
 | I6 | Every screen has essentially the same composition | See H9; recorded here because it is an identity failure too | C sameness check (`screen-archetypes.md` §3) | At least three archetypes in an app of six or more screens |
 | I7 | References affected only colors, not composition, hierarchy or behavior | Extraction stopped at the palette | C each reference record has an application visible in a built screen | Re-extract (`reference-extraction.md`); drop references that changed nothing |
 
+## J. Motion design tells
+
+Signatures of motion that was added or omitted rather than designed. Checked against `MOBILE-DESIGN.md` (`motion_system`, the inventory's Motion field) and the Phase 8 recording when one exists. Group F covers the mechanics (thread, durations, reduced motion); this group covers the design. Codes in the Instead column refer to `motion.md` §6.
+
+| # | Tell | Why | Check | Instead |
+|---|---|---|---|---|
+| J1 | MOTION is 4 or more and nothing moves beyond platform transitions and pressed states | The band was set and never spent; the app feels like a form | C compare `motion_system.moments` with the build | Build the declared change and success moments, or lower the dial honestly |
+| J2 | The declared signature motion never appears, or appears on screens the inventory did not name | Written and not built, or became wallpaper | C signature line vs recording or source (M-AI-12) | On the named screens only, usually the success moment |
+| J3 | Entrance cascade: elements fade or slide in with a stagger when a screen opens | Celebrates arrival; the first viewport is not stable at paint | S more than one entering animation per screen; V | At most one settling element, band 4 and up (M-AI-01) |
+| J4 | Bounce or overshoot on taps; springs on press handlers | Toy feel; contradicts every territory except games | S `withSpring` / `.bouncy` / `Curves.elasticOut` on press; V | Spring only on gesture release (M-AI-03) |
+| J5 | Celebration on routine completions, or more than one celebration site | The one success moment is diluted | S count confetti, bloom, checkmark animations; C vs `patterns.md` §9 | One success moment, where `motion_system.success` says (M-AI-04) |
+| J6 | Pulsing, breathing or glowing CTA; idle loops behind content | Begs for the tap; implies activity | S loops on buttons or backgrounds; V | Nothing loops outside a real in-progress state (M-AI-05, M-AI-06) |
+| J7 | Layout moves under the thumb: height or position animates in a region the user is tapping or dragging | Missed taps | V, S layout animation on interactive regions | Change in place; the hit area never moves (M-AI-08) |
+| J8 | A page transition re-implemented inside the screen (whole-screen fade or slide on mount), or a custom splash fade | Double transition; delays the first viewport | S root opacity or translate tied to mount; custom splash timers | The navigator's transition only (M-AI-09, M-AI-13) |
+| J9 | Motion character contradicts the territory (springs in a utility app, instant swaps in a playful one), or two characters mixed | The direction was not read into the motion | C `motion_system.character` vs the build | One character app-wide (M-AI-11) |
+| J10 | Counters that count up from zero on every visit; charts that redraw on every focus | The number is data, not a reveal | S counter or chart animation on focus or mount | Settle once on first paint, then change in place (M-AI-10) |
+
 ## Grep
 
 Run from the project root, adapt paths to the stack (the stack file has the stack-specific block). Every hit is triaged and quoted in the self-check; hard fails (F1, C1 with a literal status-bar constant, E7) are fixed before hand-off.

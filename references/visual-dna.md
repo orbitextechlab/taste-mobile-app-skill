@@ -79,7 +79,7 @@ Every direction, and the locked `MOBILE-DESIGN.md`, answers these ten. One or tw
 | surfaces | Cards vs canvas, hairlines vs fills, elevation policy | open canvas; cards only for the three memory prompts; hairline dividers | "minimal shadows" |
 | shapes | Radius by role, whether imagery and controls share a radius, any signature shape | controls 10, sheet platform, images 0 (they bleed); no universal radius | one radius value |
 | iconography | Family, weight, size, where icons are allowed | SF Symbols regular; only in chrome and on the four tab items; none in content rows | "consistent icons" |
-| motion | What animates and what never does, durations, gesture-driven or not | entry opens with a shared-element photo, 250 ms; nothing else animates beyond pressed states | a MOTION number (that is a dial) |
+| motion | What animates and what never does, durations, gesture-driven or not; expanded into `motion_system` by `motion.md` | entry opens with a shared-element photo, 250 ms; nothing else animates beyond pressed states | a MOTION number (that is a dial) |
 | interaction | Direct manipulation, swipe actions, undo, haptics vocabulary | swipe to archive with Undo; long-press to pin; one success haptic when an entry is saved | "intuitive" |
 
 ## 4. Content earns visual weight

@@ -1,6 +1,6 @@
 # Visual QA
 
-The second self-check pass in Phase 7, after the mechanical pass and before the final report. It does not ask "does this look good"; no model is trusted to judge taste from a screenshot. It asks ten observable questions per screen, compares the answers with what `MOBILE-DESIGN.md` committed to, and quotes evidence (a screenshot region, a file:line, or a count). Then everything found is fixed once, and the pass is not repeated.
+The second self-check pass in Phase 7, after the mechanical pass and before the final report. It does not ask "does this look good"; no model is trusted to judge taste from a screenshot. It asks twelve observable questions per screen (ten about the still screen, two about motion), compares the answers with what `MOBILE-DESIGN.md` committed to, and quotes evidence (a screenshot region, a timestamp in the recording, a file:line, or a count). Then everything found is fixed once, and the pass is not repeated.
 
 ## 1. Where it runs
 
@@ -10,16 +10,18 @@ BUILD
 Mechanical QA   types · routes vs Nav Read · safe areas · keyboard · sheets · dialogs
                 · states · the S-type grep block in tells-mobile.md and the stack file
  ↓
-Visual QA       VQ1 to VQ10 · first viewport test · tells H and I (V and C types)
+Visual QA       VQ1 to VQ12 · first viewport test · tells H, I and J (V and C types)
  ↓
 Fix once        hard fails and identity fails fixed; the rest noted
+ ↓
+Demo            Phase 8: the beat sheet recorded (demo-video.md); VQ11 and VQ12 re-cited from it
  ↓
 Final report
 ```
 
-Visual QA runs against screenshots when a simulator or device is available, and against the code plus the inventory when it is not. In the second case, say so in the report and mark the V-type answers as "from code".
+Visual QA runs against screenshots when a simulator or device is available, and against the code plus the inventory when it is not. In the second case, say so in the report and mark the V-type answers as "from code". VQ11 and VQ12 are answered from source first and re-cited with timestamps once the Phase 8 recording exists.
 
-## 2. The ten questions
+## 2. The twelve questions
 
 Answer each per screen, in one line, with evidence. The fail condition is binary.
 
@@ -35,6 +37,8 @@ Answer each per screen, in one line, with evidence. The fail condition is binary
 | VQ8 | **Competition.** Are several elements fighting for primary attention? | Count display-size or full-bleed elements | more than one dominant, or more than two supporting | H8, C-AI-13 |
 | VQ9 | **CTA weight.** Does the primary action's visual weight match its importance? | Name the primary action and compare with the number of filled buttons and its position | more than one filled button, or a filled CTA on a screen with no decision, or the decision is not in the thumb zone | H10, C-AI-06 |
 | VQ10 | **Genericity.** Could this screen be dropped into another app unchanged? | Replace the app name and accent in your head and answer honestly | yes | I1, I6, H9 |
+| VQ11 | **Motion ownership.** What moves on this screen, and which moment of `motion_system` does each movement serve? | List every animation with its moment (enter, change, success, gesture) and its source (platform, explanation, signature); cite `demo.mp4 @ m:ss` or file:line | something moves that serves no declared moment; the inventory's Motion field names a movement that is not built; more than one element moves on enter | J1, J2, J3, J8, M-AI-01, M-AI-12 |
+| VQ12 | **Motion character and the success moment.** Does the motion keep one character, stay still under the thumb, and celebrate once? | Name the character seen (settle, snap, spring, glide) and compare with `motion_system.character`; name where the success moment plays; cite the timestamp | two characters on one screen; a celebration on a screen other than the success site; layout moving in a region being tapped | J4, J5, J7, J9, M-AI-03, M-AI-04, M-AI-08 |
 
 ## 3. The first viewport test
 
@@ -67,6 +71,8 @@ VQ7 signature: flow diagram present (signature screen)         pass
 VQ8 competition: 1 dominant (number), 1 supporting (diagram)   pass
 VQ9 CTA: no filled button; the screen has no decision          pass
 VQ10 generic: no                                               pass
+VQ11 motion: kW numeral rolls (change, signature; demo.mp4 @ 0:04) · flow current (signature; @ 0:02) · nothing on enter   pass
+VQ12 character: settle, as declared · success moment not on this screen · nothing moves under the thumb   pass
 FIRST VIEWPORT: anchor kW figure · task check production · identity flow diagram · next tap an alert   pass
 ```
 
@@ -76,8 +82,8 @@ Counts and file:line references are quoted, never summarized as "looks fine".
 
 Triage every fail into one of two bins and act on it in a single pass:
 
-- **Fix now:** VQ1 (no or wrong anchor), VQ3 (wrong archetype or an anti-pattern), VQ4 (over the repetition limit), VQ7 (signature missing or overused), VQ9 (CTA weight wrong), VQ10 (yes), a flagged first viewport on a tab root. These change what the screen is; a hand-off with them open is not finished.
-- **Note for the audit:** VQ2 device choices, VQ5 and VQ6 when the element exists but is weak, non-root first viewport flags. List them in the delivery note for `mobile-app-studio`.
+- **Fix now:** VQ1 (no or wrong anchor), VQ3 (wrong archetype or an anti-pattern), VQ4 (over the repetition limit), VQ7 (signature missing or overused), VQ9 (CTA weight wrong), VQ10 (yes), VQ11 (undeclared movement, an entrance cascade, or the signature motion missing), VQ12 (layout moving under the thumb, a second celebration site), a flagged first viewport on a tab root. These change what the screen is; a hand-off with them open is not finished.
+- **Note for the audit:** VQ2 device choices, VQ5 and VQ6 when the element exists but is weak, non-root first viewport flags, VQ12 character drift on a single quiet screen. List them in the delivery note for `mobile-app-studio`.
 
 After the fixes, re-run only the questions that failed, quote the new evidence, and stop. No second polish loop.
 
@@ -90,4 +96,4 @@ After the fixes, re-run only the questions that failed, quote the new evidence, 
 
 ## 7. The Visual QA contract
 
-`MOBILE-DESIGN.md` carries a `## Visual QA contract` section written in Phase 4 and 5: the per-screen archetype, focal point and signature from the inventory, the app's repetition limits, and the identity element the app relies on. Visual QA compares against that contract rather than against taste, which is what makes it checkable by a later session and by `mobile-app-studio`.
+`MOBILE-DESIGN.md` carries a `## Visual QA contract` section written in Phase 4 and 5: the per-screen archetype, focal point, signature and motion from the inventory, the app's repetition limits, the identity element the app relies on, and the `motion_system` lines (character, signature motion, the success site, what never moves). Visual QA compares against that contract rather than against taste, which is what makes it checkable by a later session and by `mobile-app-studio`.
