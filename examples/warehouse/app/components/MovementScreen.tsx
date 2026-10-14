@@ -13,7 +13,7 @@ import { showSnack } from '../data/snackbar';
 import { formatQuantity, formatRelativeDay, getSku, issue, receive, suppliers, undoMovement, type Sku } from '../data/stock';
 import { fontFamily, spacing, type } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
-import { DoneAccessory } from './DoneAccessory';
+import { DoneAccessory, useDoneAccessoryId } from './DoneAccessory';
 import { Chip } from './Chip';
 import { FilledField } from './FilledField';
 import { InkBar } from './InkBar';
@@ -36,6 +36,7 @@ const COPY: Record<Kind, { bar: string; quantityLabel: string; cta: string; done
 };
 
 export function MovementScreen({ kind }: { kind: Kind }) {
+  const doneId = useDoneAccessoryId();
   const c = useTheme();
   const router = useRouter();
   const navigation = useNavigation();
@@ -142,6 +143,7 @@ export function MovementScreen({ kind }: { kind: Kind }) {
         insetTop={Platform.OS !== 'ios'}
       />
       <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]}
         bottomOffset={spacing.s48 + spacing.s40}
         keyboardShouldPersistTaps="handled"
@@ -163,7 +165,7 @@ export function MovementScreen({ kind }: { kind: Kind }) {
 
         <View style={styles.block}>
           <SectionLabel>{copy.quantityLabel}</SectionLabel>
-          <QuantityStepper value={quantity} onChange={setQuantity} unit={sku?.unit ?? ''} disabled={!sku || loading} />
+          <QuantityStepper inputAccessoryViewID={doneId} value={quantity} onChange={setQuantity} unit={sku?.unit ?? ''} disabled={!sku || loading} />
           {consequence ? (
             <Text style={[styles.consequence, { color: over > 0 ? c.danger : c.text }]} accessibilityLiveRegion="polite">{consequence}</Text>
           ) : null}
@@ -237,7 +239,7 @@ export function MovementScreen({ kind }: { kind: Kind }) {
           <InkButton label={copy.cta} onPress={save} disabled={!canSave} loading={saving} />
         </View>
       </KeyboardStickyView>
-      <DoneAccessory />
+      <DoneAccessory id={doneId} />
     </View>
   );
 }

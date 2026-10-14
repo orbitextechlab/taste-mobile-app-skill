@@ -69,7 +69,7 @@ Form fields that remain are grouped by mental model, carry persistent labels, th
 
 **Evidence.** The peak-end rule: experiences are remembered by their peak and their end. Emil Kowalski: ask what each animation is for; high-frequency actions are not animated.
 
-**Rule.** Design exactly one success moment at the end of the core task (order placed, workout finished, device paired): a short animation (under 600 ms total), one success haptic, copy that names what happened and what is next. Nowhere else. Routine completions get a checkmark and an Undo, not confetti. The success screen always has a next action and a way back.
+**Rule.** Design exactly one success moment at the end of the core task (order placed, workout finished, device paired): a short animation (under 600 ms total), one success haptic, copy that names what happened and what is next. Nowhere else. Routine completions get a checkmark and an Undo, not confetti. The success screen always has a next action and a way back. The choreography of that moment is the `success` line of `motion_system` (`motion.md` §3) and is usually where the signature motion lives; the demo clip (`demo-video.md`) ends on it.
 
 ## 10. Navigation visibility
 
@@ -83,14 +83,14 @@ Form fields that remain are grouped by mental model, carry persistent labels, th
 
 ## 12. Screen inventory format
 
-Phase 5 produces one entry per screen with these fields: Screen, Purpose, Archetype, Focal point, Hierarchy, Primary action, Signature, Content strategy, Surface strategy, States (L/E/Err/P), Keyboard plan, Permissions.
+Phase 5 produces one entry per screen with these fields: Screen, Purpose, Archetype, Focal point, Hierarchy, Primary action, Signature, Motion, Content strategy, Surface strategy, States (L/E/Err/P), Keyboard plan, Permissions.
 
-Archetype comes from `screen-archetypes.md` §1; hierarchy is the first three or four levels in order (`composition.md` §1); content strategy says what leads (image-first, number-first, text-first, list-first, object-first); surface strategy says open canvas, grouped lists or cards-to-group. A screen is ready to build only when every field is filled. "n/a" is allowed for keyboard, permissions and signature; it is not allowed for states, archetype, focal point or hierarchy.
+Archetype comes from `screen-archetypes.md` §1; hierarchy is the first three or four levels in order (`composition.md` §1); content strategy says what leads (image-first, number-first, text-first, list-first, object-first); surface strategy says open canvas, grouped lists or cards-to-group; motion names the moment this screen owns in the terms of `motion.md` §4 (`enter: …; change: …`, `success`, or `pressed only`). A screen is ready to build only when every field is filled. "n/a" is allowed for keyboard, permissions and signature, and `pressed only` is the expected motion value for most list and settings screens; "n/a" is not allowed for states, archetype, focal point or hierarchy.
 
 **Up to eight screens**, use the table:
 
 ```
-| Screen | Purpose | Archetype | Focal point | Hierarchy | Primary action | Signature | Content strategy | Surface strategy | States (L/E/Err/P) | Keyboard plan | Permissions |
+| Screen | Purpose | Archetype | Focal point | Hierarchy | Primary action | Signature | Motion | Content strategy | Surface strategy | States (L/E/Err/P) | Keyboard plan | Permissions |
 ```
 
 **More than eight screens**, the table stops being readable; use one block per screen, same fields, same order:
@@ -103,6 +103,7 @@ Focal point: the label block, then the 32 dp quantity
 Hierarchy: label block > stepper with quick chips > consequence line > lot and expiry chips > last receipt row > CTA
 Primary action: Lưu phiếu
 Signature: ink bar; rolling numeral
+Motion: enter: platform only; change: the numeral rolls on every stepper tap, the consequence line swaps in place; success: Lưu phiếu (haptic, roll to new stock, dismiss, snackbar)
 Content strategy: object-first
 Surface strategy: open canvas; one filled text field
 States: L skeleton label / E no SKU yet, stepper disabled / Err save failed, draft kept / P

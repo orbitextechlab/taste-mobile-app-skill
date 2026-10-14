@@ -70,6 +70,7 @@ export default function RootLayout() {
 - A visible navigator header already includes the top inset. Do not add `insets.top` again. Inside a `modal` or `formSheet` page on iOS the sheet already starts below the status bar, yet `useSafeAreaInsets()` still reports the full top inset there (verified), so a custom bar in a modal must skip the inset on iOS and keep it on Android, where the modal covers the status bar: `paddingTop: Platform.OS === 'ios' ? 0 : insets.top`.
 - Give a sticky CTA `paddingBottom: Math.max(insets.bottom, 16)` and keep it in the bottom half of the screen [R-TZ1][R-TZ2][R-TZ3]. Tap targets are at least 44pt on iOS and 48dp on Android. Extend small icon buttons with `hitSlop`.
 - Tab screens: derive every bottom offset (last list row, FAB, floating banner) from one number. With the default JS `Tabs`, content ends above the bar (verified), so add only your own gap; adding the bar height too pushes a snackbar a full bar height above the bar. When the bar overlays content (`tabBarStyle: { position: 'absolute' }` with blur), use `useBottomTabBarHeight() + gap`, imported from `expo-router/tabs` on Expo Router 57+ (`@react-navigation/bottom-tabs` is not installed there). That hook already includes the bottom inset (verify in the installed version): https://reactnavigation.org/docs/bottom-tab-navigator/. NativeTabs adjust content insets automatically: https://docs.expo.dev/router/advanced/native-tabs/
+- Hide the scroll bar on every scroll container [C16]: `showsVerticalScrollIndicator={false}` on `ScrollView`, `FlatList`, `SectionList`, `FlashList`, `KeyboardAwareScrollView`, `BottomSheetScrollView`, the `Animated` variants and `WebView`, and `showsHorizontalScrollIndicator={false}` on every `horizontal` list. When the app has a shared screen or list component, set them there once.
 - The tab bar must never ride up on the keyboard. Use `tabBarHideOnKeyboard: true`, or set `"softwareKeyboardLayoutMode": "pan"` under `android` in app.json [R-KB3].
 
 ```tsx
@@ -125,7 +126,7 @@ usePreventRemove(dirty && !saving, ({ data }: { data: { action: Parameters<typeo
 - Keep the default handle (the grabber) on any resizable sheet [R-BS2]. `enableDynamicSizing` defaults to `true`, which sizes the sheet to its content. For forms, set fixed `snapPoints` with `enableDynamicSizing={false}`. Compose and authoring content uses only a large snap point [R-BS8].
 - Long content goes in `BottomSheetScrollView` or `BottomSheetFlatList` [R-BS6]. A sticky CTA goes in `footerComponent` with `BottomSheetFooter` and `bottomInset={insets.bottom}`, never `position: 'absolute', bottom: 20` [R-BS5].
 - Inputs: `BottomSheetTextInput`, `keyboardBehavior="interactive"`, `keyboardBlurBehavior="restore"`, `android_keyboardInputMode="adjustResize"` (the default is `adjustPan`) [R-BS7]. Props: https://gorhom.dev/react-native-bottom-sheet/props
-- When the sheet is its own route and needs no custom footer, Expo Router `presentation: 'formSheet'` gives a native sheet with the system radius and grabber on iOS.
+- When the sheet is its own route and needs no custom footer, Expo Router `presentation: 'formSheet'` gives a native sheet with the system radius and grabber on iOS. Observed on Expo Router 57 with react-native-screens 4.26 on iOS 27: a `formSheet` route whose root is `flex: 1` with a plain React Native `ScrollView` as its only child rendered an empty sheet (reproduced twice); the same screen with `KeyboardAwareScrollView` from keyboard-controller rendered correctly, as do the warehouse example's sheets. Check every sheet route on the simulator once.
 
 ```tsx
 export function EditSheet({ sheetRef, onSave }: { sheetRef: RefObject<BottomSheetModal | null>; onSave: () => void }) {
@@ -174,7 +175,7 @@ Alert.alert('Delete project?', 'Its 12 tasks will be removed. This cannot be und
 ## 7. Keyboard [R-KB1..R-KB8]
 
 - Wrap the app in `KeyboardProvider` once (section 2). Forms use `KeyboardAwareScrollView` with `bottomOffset` and `keyboardShouldPersistTaps="handled"` (it accepts all ScrollView props) [R-KB1][R-KB4]: https://kirillzyusko.github.io/react-native-keyboard-controller/docs/api/components/keyboard-aware-scroll-view. Keep `KeyboardAvoidingView` for prototypes only.
-- A sticky CTA goes in `KeyboardStickyView` with `offset={{ closed, opened }}` [R-KB2]. `<KeyboardToolbar />` adds Prev/Next/Done with no configuration. Customizing it uses compound children (`KeyboardToolbar.Done` and others) in recent versions, so verify against the installed one. A numeric pad has no return key on iOS, so it always needs Done [R-KB7].
+- A sticky CTA goes in `KeyboardStickyView` with `offset={{ closed, opened }}` [R-KB2]. `<KeyboardToolbar />` adds Prev/Next/Done with no configuration. Customizing it uses compound children (`KeyboardToolbar.Done` and others) in recent versions, so verify against the installed one. A numeric pad has no return key on iOS, so it always needs Done [R-KB7]. When the screen also has a keyboard-sticky footer, `KeyboardToolbar` overlapped it in the warehouse example; attach the Done bar to the keyboard itself with React Native's `InputAccessoryView` and the input's `inputAccessoryViewID` instead (verified). Give that id one value per mounted screen (a `useRef` counter), and mount the accessory before the input in the tree: on iOS 27 a modal reopened with the same `nativeID` as an accessory that had unmounted, or an autofocused input whose accessory rendered after it, got the system Done bar instead of the app's (verified in the jar example, fixed by both).
 - Use `keyboardDismissMode`: `'interactive'` is iOS-only and Android behaves like `'on-drag'` [R-KB4].
 - `TextInput` props [R-KB5][R-KB6]: `keyboardType`/`inputMode`, `textContentType` (iOS) + `autoComplete` for autofill and OTP, `returnKeyType` (`next` for middle fields, `done`/`go`/`search`/`send` for the last), and `submitBehavior="submit"` on middle fields so the keyboard stays open (`blurOnSubmit` is deprecated): https://reactnative.dev/docs/textinput
 - For free text that is not English, set `autoCorrect={false}` and `spellCheck={false}`. Read quick-entry text from `e.nativeEvent.text` on submit, not from lagging state. Focus the first field when the form opens.
@@ -237,6 +238,23 @@ export const elevation = {
 - Entering animations must never replay in recycled FlashList cells. Limit them to first mount and the first ~6 indexes.
 - `expo-haptics` vocabulary: `selectionAsync()` for picker and segment changes, `impactAsync(ImpactFeedbackStyle.Light)` for toggles, and `notificationAsync(NotificationFeedbackType.Success)` once per completed core task. Never use haptics on plain navigation or scrolling. iOS drops haptics in Low Power Mode, so a haptic never carries meaning alone: https://docs.expo.dev/versions/latest/sdk/haptics/
 
+**Choreography recipes.** The inventory's Motion field names a moment from `motion.md` §3; this is the Reanimated 4 API for each. Everything else on the screen is static.
+
+| Moment (`motion.md`) | API | Notes |
+|---|---|---|
+| Press feedback | `withTiming(0.97, { duration: 120 })` on press-in, `withSpring(1)` on release (the `PressableScale` above) | The only place a spring touches a tap: it runs on release, not on press |
+| Change in place: a number | Keep one `Animated.Text`; on change, set `translateY` to ±8 and opacity to 0.3 with `duration: 0`, then `withTiming` both back over 150 to 200 ms (`withSequence`); verified in the warehouse example's `QuantityStepper` | Digits roll in the direction of the change; the row height never changes (M-AI-08) |
+| Change in place: a swap (segment, label, status) | Two layers, cross-fade opacity 150 ms; or `entering={FadeIn.duration(150)}` on the keyed child only | Not on the screen root (J8) |
+| Row enter / exit in place | `layout={LinearTransition.duration(250)}` on siblings, `exiting={FadeOut.duration(150)}` on the leaving row | No `entering` in FlashList cells (F4); siblings close the gap, the list does not reflow under a finger mid-swipe |
+| One settling element on enter (band 4+) | `entering={FadeInDown.duration(250).easing(Easing.out(Easing.cubic))}` on that single element | At most one per screen; nothing else gets `entering` (M-AI-01) |
+| Expand / collapse | `useAnimatedStyle` on `height` from a measured `useSharedValue`, 250 ms decelerate, with `overflow: 'hidden'` | Never on a region the user is tapping (M-AI-08) |
+| Hero from a row (band 7+) | Reanimated `sharedTransitionTag` on the image in both screens; this is still marked experimental by the Reanimated docs: https://docs.swmansion.com/react-native-reanimated/docs/shared-element-transitions/overview/ | Say so in the delivery note; fall back to the navigator's own transition when it misbehaves |
+| Gesture-driven sheet or card | `@gorhom/bottom-sheet` detents, or `Gesture.Pan()` from Gesture Handler driving a shared value with `withSpring` on release | Spring only after the finger lets go |
+| Success moment | Haptic, then the number rolls to the result (the recipe above), then the navigator dismisses (`router.back()` after the 200 ms roll, not a custom fade), then a snackbar with Undo | Under 600 ms before the dismiss; no confetti library, no checkmark animation on every save (M-AI-04) |
+| Skeleton to content | Skeleton laid out at the content's size, then cross-fade 200 ms once; no shimmer longer than 1.5 s | M-AI-06 |
+
+Reduced motion: wrap every `withTiming` and `entering` in the `useReducedMotion()` check (swap instead of roll, `undefined` instead of an entering animation); layout transitions become `LinearTransition.duration(0)`.
+
 ```tsx
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export function PressableScale({ onPress, children, accessibilityLabel }: PressableScaleProps) {
@@ -272,6 +290,9 @@ g 'useNativeDriver:[[:space:]]*false'         # JS-thread animation
 g 'Alert\.alert\(' | wc -l                    # alert count: review each against [R-DL1]
 # Expo Router 57+: navigators are vendored; direct @react-navigation imports mean a missing package or a stale pattern
 g "from '@react-navigation/"
+# Scroll bar left on [C16]: per file, scroll containers vs hidden-indicator props; a file where the second count is lower is a finding
+g -c '<(ScrollView|FlatList|SectionList|FlashList|KeyboardAwareScrollView|BottomSheetScrollView|BottomSheetFlatList|Animated\.(ScrollView|FlatList)|WebView)\b' | grep -v ':0$'
+g -c 'ScrollIndicator=\{false\}' | grep -v ':0$'
 # ScrollView wrapping .map: use FlashList for unbounded data
 grep -rlE "${INC[@]}" '<ScrollView' "${SRC[@]}" 2>/dev/null | xargs grep -HnE '\.map\('
 g '<LinearGradient' | wc -l                   # more than one or two per screen is decoration, not hierarchy

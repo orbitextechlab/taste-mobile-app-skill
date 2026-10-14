@@ -58,6 +58,7 @@ Two cautions. First, banlists expire: a Refactoring UI tip from 2018 (the colore
 | C13 | Fixed pixel widths (`width: 350`) | Breaks on small devices | S | Flex |
 | C14 | Bare 24 pt icon as a tap target | [R-TT1] | S/V | 44 pt / 48 dp with hit slop |
 | C15 | Chevron on rows that do not push, or on rows with a switch | Chevron means "pushes a screen" | S chevron count equals pushing-row count | Chevron only on navigating rows |
+| C16 | Scroll bar left on: the platform indicator flickers down the edge of every list, sheet and horizontal row while it scrolls | Chrome nobody designed; it never shows in a screenshot at rest, so it ships unnoticed | S every scroll container hides it (stack file grep); V mid-swipe in the demo clip | Hide it on every scroll container (stack file §3); keep it only where `MOBILE-DESIGN.md` records a reason under Rule exceptions |
 
 ## D. Navigational tells
 
@@ -137,6 +138,23 @@ Signatures of an app that is tokenized correctly and still anonymous. Checked ag
 | I5 | The signature element appears so often it stops being a signature | Signature as wallpaper | C count signature screens vs inventory; more than a third is a hit | Signature on tab roots and the one success moment, quiet elsewhere |
 | I6 | Every screen has essentially the same composition | See H9; recorded here because it is an identity failure too | C sameness check (`screen-archetypes.md` §3) | At least three archetypes in an app of six or more screens |
 | I7 | References affected only colors, not composition, hierarchy or behavior | Extraction stopped at the palette | C each reference record has an application visible in a built screen | Re-extract (`reference-extraction.md`); drop references that changed nothing |
+
+## J. Motion design tells
+
+Signatures of motion that was added or omitted rather than designed. Checked against `MOBILE-DESIGN.md` (`motion_system`, the inventory's Motion field) and the Phase 8 recording when one exists. Group F covers the mechanics (thread, durations, reduced motion); this group covers the design. Codes in the Instead column refer to `motion.md` §6.
+
+| # | Tell | Why | Check | Instead |
+|---|---|---|---|---|
+| J1 | MOTION is 4 or more and nothing moves beyond platform transitions and pressed states | The band was set and never spent; the app feels like a form | C compare `motion_system.moments` with the build | Build the declared change and success moments, or lower the dial honestly |
+| J2 | The declared signature motion never appears, or appears on screens the inventory did not name | Written and not built, or became wallpaper | C signature line vs recording or source (M-AI-12) | On the named screens only, usually the success moment |
+| J3 | Entrance cascade: elements fade or slide in with a stagger when a screen opens | Celebrates arrival; the first viewport is not stable at paint | S more than one entering animation per screen; V | At most one settling element, band 4 and up (M-AI-01) |
+| J4 | Bounce or overshoot on taps; springs on press handlers | Toy feel; contradicts every territory except games | S `withSpring` / `.bouncy` / `Curves.elasticOut` on press; V | Spring only on gesture release (M-AI-03) |
+| J5 | Celebration on routine completions, or more than one celebration site | The one success moment is diluted | S count confetti, bloom, checkmark animations; C vs `patterns.md` §9 | One success moment, where `motion_system.success` says (M-AI-04) |
+| J6 | Pulsing, breathing or glowing CTA; idle loops behind content | Begs for the tap; implies activity | S loops on buttons or backgrounds; V | Nothing loops outside a real in-progress state (M-AI-05, M-AI-06) |
+| J7 | Layout moves under the thumb: height or position animates in a region the user is tapping or dragging | Missed taps | V, S layout animation on interactive regions | Change in place; the hit area never moves (M-AI-08) |
+| J8 | A page transition re-implemented inside the screen (whole-screen fade or slide on mount), or a custom splash fade | Double transition; delays the first viewport | S root opacity or translate tied to mount; custom splash timers | The navigator's transition only (M-AI-09, M-AI-13) |
+| J9 | Motion character contradicts the territory (springs in a utility app, instant swaps in a playful one), or two characters mixed | The direction was not read into the motion | C `motion_system.character` vs the build | One character app-wide (M-AI-11) |
+| J10 | Counters that count up from zero on every visit; charts that redraw on every focus | The number is data, not a reveal | S counter or chart animation on focus or mount | Settle once on first paint, then change in place (M-AI-10) |
 
 ## Grep
 

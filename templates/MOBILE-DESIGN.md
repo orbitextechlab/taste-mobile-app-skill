@@ -6,10 +6,11 @@
 # not confirmed by the user and may be corrected; a re-run refreshes this file and reports
 # the delta instead of regenerating it.
 #
-# Schema 2 adds visual_identity, references, visual_dna and composition. A schema 1 file is
-# still valid input: the skill reads it, keeps every decision, infers the new blocks from the
-# existing direction and marks them (inferred) until confirmed. See SKILL.md Phase 0.
-version: 2
+# Schema 2 added visual_identity, references, visual_dna and composition. Schema 3 adds
+# motion_system, the Motion field in the inventory and the Demo section. Schema 1 and 2 files
+# are still valid input: the skill reads them, keeps every decision, infers the missing blocks
+# from the existing direction and marks them (inferred) until confirmed. See SKILL.md Phase 0.
+version: 3
 updated: YYYY-MM-DD
 stack: expo | flutter | swiftui
 platforms:
@@ -58,6 +59,18 @@ composition:
   allowed: [<archetypes this app uses>]
   prohibited: [<archetypes this app never uses, with the reason in prose>]
   repetition_limits: "<cards per viewport>; <sections sharing one grammar>; <filled buttons per screen>"
+
+# What moves, why, and what never does (references/motion.md). The MOTION dial is the ceiling;
+# this block is the design. Per-screen values live in the inventory's Motion field.
+motion_system:
+  character: "<settle | snap | spring | glide>"
+  signature: "<what moves, where, how long, and what stays still; or none>"
+  moments:
+    enter: "<platform only | one settling element: which, on which screens>"
+    change: "<what rolls, swaps, enters or leaves in place>"
+    success: "<the one success moment: screen, trigger, steps, total duration, haptic>"
+    gesture: "<platform gestures | plus swipe actions on …| plus what the finger drives>"
+  never: "<what this app never animates, in one line>"
 
 colors:
   surface: "#FFFFFF"
@@ -135,6 +148,10 @@ Each line of the `visual_dna` block, expanded to a sentence or two with its reas
 
 Default archetype and the archetypes in use, by screen kind. Axis policy (leading everywhere except single-message screens). Repetition limits for this app and the reason for any that differ from the defaults in `composition.md` §4. The first-viewport commitment for each tab root: anchor, task, identity, next action.
 
+## Motion system
+
+Each line of the `motion_system` block expanded with its reason and source (`motion.md` §2 and §3): the core moment the signature motion is tied to, what physically happens in the domain there, which reference principle of type `motion` it derives from and what is not copied, the character and why it fits the territory, and the list of things that never move. If the signature is `none`, say why the identity lives in space only.
+
 ## Direction: <name>
 
 **Idea.** One sentence tying the look to the subject or the moment of use.
@@ -181,10 +198,10 @@ max taps to any core screen:
 
 ## Screen inventory
 
-| Screen | Purpose | Archetype | Focal point | Hierarchy | Primary action | Signature | Content strategy | Surface strategy | States (L/E/Err/P) | Keyboard plan | Permissions |
-|---|---|---|---|---|---|---|---|---|---|---|---|
+| Screen | Purpose | Archetype | Focal point | Hierarchy | Primary action | Signature | Motion | Content strategy | Surface strategy | States (L/E/Err/P) | Keyboard plan | Permissions |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
-Example row: `Home · discover today's recommendations · editorial · hero image, top · image > title > metadata > save · save · oversized title crossing the image edge · image-first, one item per viewport · open canvas, no cards · L skeleton of one item / E first-run prompt / Err cached + retry / P · n/a · none`.
+Example row: `Home · discover today's recommendations · editorial · hero image, top · image > title > metadata > save · save · oversized title crossing the image edge · enter: platform only; change: save state in place · image-first, one item per viewport · open canvas, no cards · L skeleton of one item / E first-run prompt / Err cached + retry / P · n/a · none`.
 
 Above eight screens, replace the table with one block per screen in the same field order (`patterns.md` §12). End the inventory with the sameness check result and the confirmed `composition.allowed` / `composition.prohibited` lists.
 
@@ -193,11 +210,26 @@ Above eight screens, replace the table with one block per screen in the same fie
 - Onboarding: <zero slides | n screens, each collecting …>, reason.
 - Sign-in timing: <after first value moment at …>, reason.
 - Permissions: <permission> on <trigger> with pre-prompt <text>, decline path <…>.
-- Success moment: <where>, <what happens>, nowhere else.
+- Success moment: <where>, <what happens>, nowhere else (the same event as `motion_system.moments.success`).
 
 ## Visual QA contract
 
-What Phase 7's visual pass compares against (`visual-qa.md` §7): the archetype, focal point and signature per screen (from the inventory), the repetition limits above, the identity element each tab root relies on, and the first-viewport commitments. Anything the build may not change without updating this file first.
+What Phase 7's visual pass compares against (`visual-qa.md` §7): the archetype, focal point, signature and motion per screen (from the inventory), the repetition limits above, the identity element each tab root relies on, the first-viewport commitments, and the `motion_system` lines (character, signature motion, success site, what never moves). Anything the build may not change without updating this file first.
+
+## Demo
+
+The Phase 8 beat sheet (`demo-video.md` §2) and, once recorded, the path of the clip and the preview:
+
+```
+DEMO: <app> · <flow> · <target length>s
+beat 1  0–3 s    identity   <tab root at its first viewport>
+beat 2  3–11 s   the task   <taps in order>
+beat 3  last 3 s success    <the success moment; the result state the clip ends on>
+signature visible at: <beat and screen>
+nothing else moves: <what stays still>
+data: <seeded records by name>
+recorded: <path, device, date> | pending (no simulator in this session)
+```
 
 ## Rule exceptions
 
@@ -205,4 +237,4 @@ What Phase 7's visual pass compares against (`visual-qa.md` §7): the archetype,
 
 ## Change log
 
-- YYYY-MM-DD: created by taste-mobile-app-skill (schema 2).
+- YYYY-MM-DD: created by taste-mobile-app-skill (schema 3).

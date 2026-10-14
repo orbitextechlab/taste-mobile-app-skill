@@ -29,7 +29,7 @@ Never pull from "what premium apps look like" in the abstract. That path ends in
 
 ## 3. The direction card
 
-Each direction is written as a card, in the user's language, in this exact shape. The lines from Visual territory to Interaction language are the card's Visual DNA in short form (`visual-dna.md` §3); they are what makes two cards visually different rather than differently colored.
+Each direction is written as a card, in the user's language, in this exact shape. The lines from Visual territory to Motion language are the card's Visual DNA in short form (`visual-dna.md` §3, `motion.md` §2); they are what makes two cards visually different rather than differently colored.
 
 ```
 ### <Name, two or three words>
@@ -44,7 +44,8 @@ Palette: <role: name #hex> × 4 to 6   (surface, surface-alt, text, text-muted, 
 Imagery: <photo / 3D / illustration / chart / none; treatment; where; where never>
 Surface language: <open canvas | grouped lists | cards-to-group; hairlines vs fills; elevation policy>
 Shape language: <radius by role; what shares a radius and what does not>
-Interaction language: <direct manipulation, swipe actions, undo, haptics, what never animates>
+Interaction language: <direct manipulation, swipe actions, undo, haptics>
+Motion language: <character: settle | snap | spring | glide> · <signature motion: what moves, where, or "none"> · <what never animates>
 Signature: <the dominant visual idea on signature screens, up to two supporting behaviors, and which screens>
 Deliberately not doing: <two or three things this direction refuses, including the nearest slop default and the nearest C-AI composition default>
 Best for: <which part of the App Read this serves best>
@@ -66,6 +67,7 @@ Example, for a solar-inverter companion app:
 > Surface language: open canvas on Home; grouped inset lists elsewhere; hairlines, no shadows
 > Shape language: controls 10; the render has no container; no card radius exists
 > Interaction language: pull-down refresh on Home; swipe to dismiss alerts with Undo; one success haptic on pairing
+> Motion language: settle · the kW numeral rolls to each new reading and the flow diagram's current moves at the real rate, on Home only · the layout, cards and chrome never move; no entrance on any screen
 > Signature: the animated energy-flow diagram on Home, supported by the amber live numeral; nowhere else
 > Deliberately not doing: dashboards of cards (C-AI-02), green-means-good gradients, dark mode as default
 > Best for: homeowners checking production once a day; installers get the same screens with DENSITY 6 lists
@@ -80,6 +82,7 @@ Before presenting, check every card against `tells-mobile.md` §A and these ques
 - Has every reference been extracted (observation, principle, application, non-copy)? Does at least one principle change composition or behavior, not only color (tell I7)?
 - Is there one display size, and is hierarchy built with position, weight and color rather than more sizes?
 - Is the signature one dominant idea with at most two supporting behaviors, on named screens, and absent from the rest?
+- Does the motion language name one character and either a signature motion tied to the core moment or an honest "none"? Could the signature motion be dropped into any other app (then it is a default, not a signature; `motion.md` §2)?
 - Do the default archetypes differ by screen intent (`screen-archetypes.md` §1)? Is any archetype other than List covering more than half the likely inventory?
 - Does the direction keep native chrome unless EXPRESSION is 8 or more?
 - Does the posture's component language actually appear in the plan? Android-first at EXPRESSION 1 to 4 means Material filled or outlined fields, pill buttons, 56 dp list items and a top app bar; iOS-first means grouped lists, system sheets and large titles. Name the three components that prove it (tell B17).

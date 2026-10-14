@@ -3,6 +3,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Chip } from '../../components/Chip';
 import { Divider } from '../../components/Divider';
 import { EmptyState } from '../../components/EmptyState';
@@ -10,6 +11,7 @@ import { InkButton } from '../../components/InkButton';
 import { MovementRow } from '../../components/MovementRow';
 import { SectionLabel } from '../../components/SectionLabel';
 import { SkuLabel } from '../../components/SkuLabel';
+import { Snackbar } from '../../components/Snackbar';
 import { SurfaceStatusBar } from '../../components/SurfaceStatusBar';
 import { formatQuantity, formatRelativeDay, getLocation, getSkuSync, listMovementsFor, useStock } from '../../data/stock';
 import { fontFamily, spacing, type } from '../../theme/tokens';
@@ -19,6 +21,7 @@ export default function SkuDetailScreen() {
   useStock();
   const c = useTheme();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { code } = useLocalSearchParams<{ code: string }>();
   const sku = getSkuSync(code);
   const movements = sku ? listMovementsFor(sku.code).slice(0, 10) : [];
@@ -34,7 +37,8 @@ export default function SkuDetailScreen() {
   }
 
   return (
-    <ScrollView style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
+    <View style={[styles.screen, { backgroundColor: c.surface }]}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.screen} contentContainerStyle={styles.content}>
       <SurfaceStatusBar />
       <Stack.Screen options={{ title: sku.name }} />
       <View style={styles.hero}>
@@ -68,6 +72,8 @@ export default function SkuDetailScreen() {
         ))
       )}
     </ScrollView>
+    <Snackbar bottomInset={insets.bottom} />
+    </View>
   );
 }
 

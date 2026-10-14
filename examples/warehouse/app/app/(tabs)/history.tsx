@@ -37,6 +37,7 @@ export default function HistoryScreen() {
         </View>
       ) : null}
       <SectionList
+        showsVerticalScrollIndicator={false}
         sections={sections}
         keyExtractor={(m) => m.id}
         renderSectionHeader={({ section }) => (

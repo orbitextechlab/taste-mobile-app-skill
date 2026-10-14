@@ -29,6 +29,7 @@ export default function LocationScreen() {
         <Text style={[styles.meta, { color: c.textMuted }]}>{skus.length} SKU · {location?.lastCount ? `đếm ${formatRelativeDay(location.lastCount)}` : 'chưa kiểm kê'}</Text>
       </View>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={skus}
         keyExtractor={(s) => s.code}
         renderItem={({ item }) => <SkuRow sku={item} onPress={() => router.push({ pathname: '/sku/[code]', params: { code: item.code } })} />}

@@ -40,7 +40,7 @@ export default function SettingsScreen() {
   ];
 
   return (
-    <ScrollView style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
       <SurfaceStatusBar />
       <Stack.Screen options={{ title: 'Cài đặt' }} />
       {groups.map((g) => (
