@@ -45,7 +45,7 @@ export default function PlanScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s8 }]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s8 }]}>
         <View style={styles.title}>
           <Text style={[styles.heading, { color: c.text }]}>Kế hoạch</Text>
           <Text style={[styles.date, { color: c.textMuted }]}>Tuần từ {monday.getDate()}/{monday.getMonth() + 1}</Text>

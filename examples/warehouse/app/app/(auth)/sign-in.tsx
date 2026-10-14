@@ -42,7 +42,7 @@ export default function SignInScreen() {
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <SurfaceStatusBar />
-      <KeyboardAwareScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s24, paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]} bottomOffset={spacing.s48 + spacing.s40} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s24, paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]} bottomOffset={spacing.s48 + spacing.s40} keyboardShouldPersistTaps="handled">
         <View style={[styles.wordmark, { backgroundColor: c.accent }]}>
           <Text style={[styles.wordmarkText, { color: c.onAccent }]}>KHO</Text>
         </View>

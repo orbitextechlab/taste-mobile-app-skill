@@ -105,7 +105,7 @@ export default function FinishScreen() {
         </>
       ) : (
         <>
-          <ScrollView contentContainerStyle={styles.content}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
             <View style={styles.hero}>
               <Text style={[styles.date, { color: c.onField }]}>
                 {formatDayLong(startedAt)}, {formatTime(startedAt)} đến {formatTime(new Date())}

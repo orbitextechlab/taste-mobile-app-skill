@@ -105,7 +105,7 @@ export default function PlantDetailScreen() {
           ),
         }}
       />
-      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.s48 }]} contentInsetAdjustmentBehavior="never">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.s48 }]} contentInsetAdjustmentBehavior="never">
         <PlantHero plant={plant} height={heroHeight} topInset={headerHeight} onWater={confirm} onPostpone={later} busy={busy} error={error} now={now} />
         <View style={styles.facts}>
           <Fact label="Vị trí" value={plant.location} />

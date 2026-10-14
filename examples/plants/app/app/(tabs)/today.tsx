@@ -185,7 +185,7 @@ export default function TodayScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
-      <ScrollView contentContainerStyle={styles.content} contentInsetAdjustmentBehavior="never">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content} contentInsetAdjustmentBehavior="never">
         {body}
       </ScrollView>
       <Snackbar />

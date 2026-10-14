@@ -143,6 +143,7 @@ export function MovementScreen({ kind }: { kind: Kind }) {
         insetTop={Platform.OS !== 'ios'}
       />
       <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]}
         bottomOffset={spacing.s48 + spacing.s40}
         keyboardShouldPersistTaps="handled"

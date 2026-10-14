@@ -105,6 +105,7 @@ export default function AddPlantScreen() {
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <ModalBar title={editing ? 'Sửa cây' : 'Thêm cây'} onClose={() => router.back()} insetTop={Platform.OS !== 'ios'} />
       <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: touch.min + spacing.s48 + insets.bottom }]}
         bottomOffset={touch.min + spacing.s32}
         keyboardShouldPersistTaps="handled"

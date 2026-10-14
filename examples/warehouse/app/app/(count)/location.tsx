@@ -40,6 +40,7 @@ export default function CountLocationScreen() {
         <FilledField value={query} onChangeText={setQuery} placeholder="Tìm mã kệ hoặc khu" returnKeyType="search" autoCapitalize="characters" autoCorrect={false} accessibilityLabel="Tìm vị trí" />
       </View>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         keyExtractor={(l) => l.code}
         renderItem={({ item }) => <LocationRow location={item} onPress={() => begin(item.code)} />}

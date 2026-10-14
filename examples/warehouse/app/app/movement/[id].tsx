@@ -61,7 +61,7 @@ export default function MovementScreen() {
   }
 
   return (
-    <ScrollView style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
       <SurfaceStatusBar />
       <Stack.Screen options={{ title: TITLE[movement.type] }} />
       <View style={styles.head}>

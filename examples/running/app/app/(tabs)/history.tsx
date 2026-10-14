@@ -60,6 +60,7 @@ export default function HistoryScreen() {
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <SectionList
+        showsVerticalScrollIndicator={false}
         sections={sections}
         keyExtractor={(r) => r.id}
         ListHeaderComponent={header}

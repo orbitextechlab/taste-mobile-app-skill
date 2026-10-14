@@ -38,7 +38,7 @@ export default function SkuDetailScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.screen} contentContainerStyle={styles.content}>
       <SurfaceStatusBar />
       <Stack.Screen options={{ title: sku.name }} />
       <View style={styles.hero}>

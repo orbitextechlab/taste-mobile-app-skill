@@ -34,6 +34,7 @@ export default function StockScreen() {
         </View>
       </View>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         keyExtractor={(s) => s.code}
         renderItem={({ item }) => <SkuRow sku={item} onPress={() => router.push({ pathname: '/sku/[code]', params: { code: item.code } })} />}

@@ -36,6 +36,7 @@ export default function ScheduleScreen() {
         <SkeletonRows />
       ) : (
         <SectionList<Plant, { title: string; day: string }>
+          showsVerticalScrollIndicator={false}
           sections={sections}
           keyExtractor={(p, i) => `${p.id}-${i}`}
           renderSectionHeader={({ section }) => <GroupHeading>{section.title}</GroupHeading>}

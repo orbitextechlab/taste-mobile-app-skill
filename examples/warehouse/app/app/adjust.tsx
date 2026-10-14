@@ -51,7 +51,7 @@ export default function AdjustSheet() {
 
   return (
     <View style={[styles.sheet, { backgroundColor: c.surface }]}>
-      <KeyboardAwareScrollView contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} bottomOffset={spacing.s24} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} bottomOffset={spacing.s24} keyboardShouldPersistTaps="handled">
         <View style={styles.head}>
           <Text style={[styles.title, { color: c.text }]}>Điều chỉnh nhanh</Text>
           <Text style={[styles.sku, { color: c.textMuted }]} numberOfLines={1}>{sku ? `${sku.name} · tồn ${formatQuantity(sku.onHand)} ${sku.unit}` : 'Không tìm thấy SKU'}</Text>

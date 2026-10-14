@@ -63,7 +63,7 @@ export default function TodayScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s8 }]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.s8 }]}>
         <View style={styles.title}>
           <Text style={[styles.heading, { color: c.text }]}>Hôm nay</Text>
           <Text style={[styles.date, { color: c.textMuted }]}>{formatDayLong(now)}</Text>

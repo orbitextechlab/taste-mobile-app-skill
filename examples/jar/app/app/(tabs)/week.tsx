@@ -75,6 +75,7 @@ export default function WeekScreen() {
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <Animated.FlatList
+        showsVerticalScrollIndicator={false}
         data={ready ? today : []}
         keyExtractor={(s: Spend) => s.id}
         ListHeaderComponent={header}

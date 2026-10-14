@@ -32,6 +32,7 @@ export default function PlantsScreen() {
         <SkeletonRows />
       ) : (
         <SectionList<Plant>
+          showsVerticalScrollIndicator={false}
           sections={sections}
           keyExtractor={(p) => p.id}
           renderSectionHeader={({ section }) => <GroupHeading>{section.title}</GroupHeading>}

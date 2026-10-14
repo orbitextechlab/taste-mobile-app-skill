@@ -41,7 +41,7 @@ export default function LimitsSheet() {
 
   return (
     <View style={[styles.sheet, { backgroundColor: c.surface }]}>
-      <KeyboardAwareScrollView contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) }]} keyboardShouldPersistTaps="handled">
         <View style={styles.head}>
           <Text style={[styles.title, { color: c.text }]}>Đặt hạn mức tuần</Text>
           <Text style={[styles.hint, { color: c.textMuted }]}>Mỗi bước 50.000 ₫. Áp dụng từ tuần này.</Text>

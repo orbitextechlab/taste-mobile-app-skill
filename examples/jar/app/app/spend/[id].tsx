@@ -114,6 +114,7 @@ function SpendEditor({ spend }: { spend: Spend }) {
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <Stack.Screen options={{ title: spend.place || jar?.name || 'Khoản chi' }} />
       <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: Math.max(insets.bottom, spacing.s16) + spacing.s24 }]}
         bottomOffset={spacing.s24}
         keyboardShouldPersistTaps="handled"

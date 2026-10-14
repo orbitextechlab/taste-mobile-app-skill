@@ -79,7 +79,7 @@ export default function RunDetailScreen() {
   }
 
   return (
-    <ScrollView style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[styles.screen, { backgroundColor: c.surface }]} contentContainerStyle={styles.content}>
       <Stack.Screen options={{ title: run.place }} />
       <View style={styles.hero}>
         <Text style={[styles.date, { color: c.textMuted }]}>

@@ -61,6 +61,7 @@ export default function HistoryScreen() {
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
       <Animated.FlatList
+        showsVerticalScrollIndicator={false}
         data={items}
         keyExtractor={(item: Item) => item.key}
         renderItem={({ item }) => {

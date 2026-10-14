@@ -31,7 +31,7 @@ export default function JarsScreen() {
 
   return (
     <View style={[styles.screen, { backgroundColor: c.surface }]}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <View style={styles.headline}>
           {ready ? (
             <>

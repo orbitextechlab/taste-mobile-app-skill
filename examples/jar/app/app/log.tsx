@@ -112,6 +112,7 @@ export default function LogScreen() {
       <KeypadAccessory id={keypadId} onTripleZero={tripleZero} />
       <TopBar title="Ghi chi tiêu" onClose={() => router.back()} insetTop={Platform.OS !== 'ios'} />
       <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.content, { paddingBottom: footerHeight + spacing.s16 }]}
         bottomOffset={footerHeight + spacing.s16}
         keyboardShouldPersistTaps="handled"

@@ -57,6 +57,7 @@ export default function OverviewScreen() {
         ]}
       />
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={recent}
         keyExtractor={(m) => m.id}
         ListHeaderComponent={header}

@@ -75,7 +75,7 @@ export default function CountScreen() {
         <EmptyState message={`Kệ ${id} không có SKU nào trong sổ. Nhập hàng vào kệ trước, hoặc chọn kệ khác.`} actionLabel="Chọn kệ khác" onAction={() => router.back()} />
       ) : (
         <>
-          <KeyboardAwareScrollView contentContainerStyle={[styles.content, { paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]} bottomOffset={spacing.s48 + spacing.s40} keyboardShouldPersistTaps="handled">
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingBottom: spacing.s48 + spacing.s48 + insets.bottom }]} bottomOffset={spacing.s48 + spacing.s40} keyboardShouldPersistTaps="handled">
             {current ? (
               <View style={styles.block}>
                 <Text style={[styles.name, { color: c.text }]}>{current.name}</Text>
