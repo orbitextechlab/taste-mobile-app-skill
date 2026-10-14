@@ -42,6 +42,7 @@ ls MOBILE-DESIGN.md docs/MOBILE-DESIGN.md 2>/dev/null
 - **`NavigationBar`** is 80dp high in M3 and wraps itself in a `SafeArea` (navigation_bar.dart source). Do not add another bottom inset or SafeArea around it.
 - **`SafeArea(minimum: ...)`** keeps a floor on each edge, for example 16 when the inset is 0 or the keyboard is open. `maintainBottomViewPadding: true` keeps the hardware inset while the keyboard is up.
 - **Status bar icon colour [R-SA3].** An AppBar sets it through `systemOverlayStyle` or `AppBarTheme.systemOverlayStyle`. A screen without an AppBar uses `AnnotatedRegion<SystemUiOverlayStyle>`. `SystemUiOverlayStyle.dark` means dark icons, for light backgrounds. The M3 AppBar already gives scroll-under protection, so do not stack a second scrim.
+- **No scroll bar [C16].** Phones show none by default; do not add `Scrollbar`, `CupertinoScrollbar` or `RawScrollbar`. Set `scrollBehavior: const MaterialScrollBehavior().copyWith(scrollbars: false)` on `MaterialApp` (or `CupertinoScrollBehavior` on `CupertinoApp`) so iPad with a trackpad and desktop builds match.
 - **Custom edge swipes [R-SA5].** Read `MediaQuery.systemGestureInsetsOf(context)` and keep drag targets out of that area.
 
 ```dart
@@ -271,6 +272,7 @@ echo "== toasts [R-DL8]";                      grep -rnE "fluttertoast|showToast
 echo "== unbounded lists in SingleChildScrollView (use ListView.builder)"
 for f in $(grep -rlE "SingleChildScrollView" lib $D); do grep -nHE "\.map\(|for \(final|List\.generate" "$f"; done
 echo "== text scale clamps / legacy API";      grep -rnE "textScaleFactor|TextScaler\.(noScaling|linear)|(min|max)ScaleFactor" lib $D
+echo "== scroll bars [C16] (expect none)";     grep -rnE "\b(Cupertino|Raw)?Scrollbar\(" lib $D
 echo "== keyboard avoidance off [R-KB1]";      grep -rnE "resizeToAvoidBottomInset: *false" lib $D
 echo "== emoji in source (use icons)"
 find lib -name "*.dart" -exec perl -CSD -ne 'print "$ARGV:$.: $_" if /[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/; close ARGV if eof' {} +

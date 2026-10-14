@@ -148,7 +148,8 @@ Patterns were studied from, and are credited to: [taste-skill](https://github.co
 **0.3.0** (2026-10-13)
 
 Added: the motion system (`references/motion.md`: three sources of motion, signature motion derived from the core moment, four moments, choreography by archetype, timing and easing vocabulary, M-AI-01 to M-AI-14), the demo clip (`references/demo-video.md`: beat sheet, iOS Simulator and Android emulator recording, export, checklist) as Phase 8, tells group J (motion design), VQ11 and VQ12, choreography recipes in all three stack files, MOBILE-DESIGN schema 3 (`motion_system`, Motion field in the inventory, Demo section) with migration from schema 1 and 2, a Motion language line on direction cards.
-Updated: the warehouse example to schema 3 with its motion system and a recorded demo.
+Added: tell C16 (scroll bar left on) with the hide rule and a grep check in all three stack files.
+Updated: the warehouse example to schema 3 with its motion system and a recorded demo; all four examples hide the scroll bar.
 Preserved: the MOTION dial and its bands (now a ceiling that `motion.md` spends), group F mechanics tells, every existing tell and rule ID.
 
 **0.2.1** (2026-10-07)

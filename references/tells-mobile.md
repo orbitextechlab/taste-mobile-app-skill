@@ -58,6 +58,7 @@ Two cautions. First, banlists expire: a Refactoring UI tip from 2018 (the colore
 | C13 | Fixed pixel widths (`width: 350`) | Breaks on small devices | S | Flex |
 | C14 | Bare 24 pt icon as a tap target | [R-TT1] | S/V | 44 pt / 48 dp with hit slop |
 | C15 | Chevron on rows that do not push, or on rows with a switch | Chevron means "pushes a screen" | S chevron count equals pushing-row count | Chevron only on navigating rows |
+| C16 | Scroll bar left on: the platform indicator flickers down the edge of every list, sheet and horizontal row while it scrolls | Chrome nobody designed; it never shows in a screenshot at rest, so it ships unnoticed | S every scroll container hides it (stack file grep); V mid-swipe in the demo clip | Hide it on every scroll container (stack file §3); keep it only where `MOBILE-DESIGN.md` records a reason under Rule exceptions |
 
 ## D. Navigational tells
 

@@ -70,6 +70,7 @@ export default function RootLayout() {
 - A visible navigator header already includes the top inset. Do not add `insets.top` again. Inside a `modal` or `formSheet` page on iOS the sheet already starts below the status bar, yet `useSafeAreaInsets()` still reports the full top inset there (verified), so a custom bar in a modal must skip the inset on iOS and keep it on Android, where the modal covers the status bar: `paddingTop: Platform.OS === 'ios' ? 0 : insets.top`.
 - Give a sticky CTA `paddingBottom: Math.max(insets.bottom, 16)` and keep it in the bottom half of the screen [R-TZ1][R-TZ2][R-TZ3]. Tap targets are at least 44pt on iOS and 48dp on Android. Extend small icon buttons with `hitSlop`.
 - Tab screens: derive every bottom offset (last list row, FAB, floating banner) from one number. With the default JS `Tabs`, content ends above the bar (verified), so add only your own gap; adding the bar height too pushes a snackbar a full bar height above the bar. When the bar overlays content (`tabBarStyle: { position: 'absolute' }` with blur), use `useBottomTabBarHeight() + gap`, imported from `expo-router/tabs` on Expo Router 57+ (`@react-navigation/bottom-tabs` is not installed there). That hook already includes the bottom inset (verify in the installed version): https://reactnavigation.org/docs/bottom-tab-navigator/. NativeTabs adjust content insets automatically: https://docs.expo.dev/router/advanced/native-tabs/
+- Hide the scroll bar on every scroll container [C16]: `showsVerticalScrollIndicator={false}` on `ScrollView`, `FlatList`, `SectionList`, `FlashList`, `KeyboardAwareScrollView`, `BottomSheetScrollView`, the `Animated` variants and `WebView`, and `showsHorizontalScrollIndicator={false}` on every `horizontal` list. When the app has a shared screen or list component, set them there once.
 - The tab bar must never ride up on the keyboard. Use `tabBarHideOnKeyboard: true`, or set `"softwareKeyboardLayoutMode": "pan"` under `android` in app.json [R-KB3].
 
 ```tsx
@@ -289,6 +290,9 @@ g 'useNativeDriver:[[:space:]]*false'         # JS-thread animation
 g 'Alert\.alert\(' | wc -l                    # alert count: review each against [R-DL1]
 # Expo Router 57+: navigators are vendored; direct @react-navigation imports mean a missing package or a stale pattern
 g "from '@react-navigation/"
+# Scroll bar left on [C16]: per file, scroll containers vs hidden-indicator props; a file where the second count is lower is a finding
+g -c '<(ScrollView|FlatList|SectionList|FlashList|KeyboardAwareScrollView|BottomSheetScrollView|BottomSheetFlatList|Animated\.(ScrollView|FlatList)|WebView)\b' | grep -v ':0$'
+g -c 'ScrollIndicator=\{false\}' | grep -v ':0$'
 # ScrollView wrapping .map: use FlashList for unbounded data
 grep -rlE "${INC[@]}" '<ScrollView' "${SRC[@]}" 2>/dev/null | xargs grep -HnE '\.map\('
 g '<LinearGradient' | wc -l                   # more than one or two per screen is decoration, not hierarchy

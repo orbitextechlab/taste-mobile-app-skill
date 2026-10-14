@@ -58,6 +58,7 @@ ScrollView {
 - Tab bar holds sections, never actions; never hide or disable tabs [R-NV1][R-NV2]. iOS 26 options: `.tabBarMinimizeBehavior(.onScrollDown)`, `.tabViewBottomAccessory { }` for a persistent mini player.
 - iOS 26 Liquid Glass [R-SA2]: no solid `.toolbarBackground(Color, for:)` under bars. The scroll edge effect is automatic; tune it with `.scrollEdgeEffectStyle(.soft | .hard, for:)` (iOS 26, `doc:swiftui/view/scrolledgeeffectstyle(_:for:)`). On iOS 17-18 keep the system bar material; force `.toolbarBackground(.visible, for: .navigationBar)` only when content clashes. Per `hig:toolbars`, reduce custom bar backgrounds and tinted bar items.
 - Targets: every custom tappable is at least 44x44pt (`hig:accessibility`): `Image(systemName:).frame(minWidth: 44, minHeight: 44).contentShape(.rect)` plus `.accessibilityLabel`. iOS 26 wraps default bordered buttons in glass capsules; re-check row heights and use `.buttonStyle(.plain)` where a bare icon is intended.
+- No scroll bar [C16]: `.scrollIndicators(.hidden)` (iOS 16) once on the root `TabView` or `NavigationStack`; it reaches every `ScrollView`, `List` and `Form` below. Each `.sheet` and `.fullScreenCover` is a new root and needs it too. UIKit hosts set `showsVerticalScrollIndicator = false` and `showsHorizontalScrollIndicator = false`.
 - Edge-swipe back stays alive: no `DragGesture`, horizontal pager or drawer starting at the leading edge of a pushed screen. Frequent actions never live only in the top-left corner [R-TZ2].
 
 ## 4. Navigation containers [R-NV][R-BS9]
@@ -264,6 +265,7 @@ echo "## bare ignoresSafeArea() not on a fill";        S '\.ignoresSafeArea\(\)'
 echo "## status-bar padding hacks";                    S '\.padding\(\.(top|vertical), *[2-6][0-9](\.0)?\)'
 echo "## UIScreen.main layout (deprecated iOS 26)";    S 'UIScreen\.main'
 echo "## asyncAfter used as an animation timer";       S 'asyncAfter'
+echo "## scroll bars [C16]: each root and presented root needs .scrollIndicators(.hidden)"; S '\.(sheet|fullScreenCover)\(|\.scrollIndicators\(|TabView|NavigationStack'
 echo "## solid bar backgrounds [R-SA2]";               S '\.toolbarBackground\(' | grep -vE '\((\.visible|\.hidden|\.automatic)'
 echo "## emoji in Text/Label/Button/Tab titles"
 find "$SRC" -name '*.swift' -not -path '*/.build/*' -print0 | xargs -0 perl -CSD -ne 'print "$ARGV:$.: $_" if /(Text|Label|Button|Tab)\("[^"]*[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/; close ARGV if eof'
